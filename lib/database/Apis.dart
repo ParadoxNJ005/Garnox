@@ -31,7 +31,7 @@ class APIs {
       List<Map<String, dynamic>> allData = querySnapshot.docs.map((doc) => doc.data() as Map<String, dynamic>).toList();
 
       // Log the whole JSON response
-      log("Complete JSON Data: ${jsonEncode(allData)}");
+      // log("Complete JSON Data: ${jsonEncode(allData)}");
 
       querySnapshot.docs.forEach((doc) async {
         try {

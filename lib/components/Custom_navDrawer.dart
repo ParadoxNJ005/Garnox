@@ -1,12 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:share/share.dart';
-import 'package:toggle_switch/toggle_switch.dart';
+import 'package:share_plus/share_plus.dart';
 import '../database/Apis.dart';
 import '../pages/AuthPage.dart';
 import '../pages/ProfilePage.dart';
-import '../pages/classes.dart';
 import '../pages/developerPage.dart';
 import '../pages/sem_vise_subjects.dart';
 import '../utils/contstants.dart';
@@ -78,9 +76,9 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             _list(Icons.notifications_active, "Notifications", (){Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");}),
             _list(Icons.location_on_outlined, "Address", (){Dialogs.showSnackbar(context, "😞 Currently we do not have Address functionality");}),
             _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));}),
-            _list(Icons.payment, "Plan Your Day", (){
-                 Navigator.push(context, MaterialPageRoute(builder: (_)=>Classes()));
-            }),
+            // _list(Icons.payment, "Plan Your Day", (){
+            //      Navigator.push(context, MaterialPageRoute(builder: (_)=>Classes()));
+            // }),
             _list(Icons.local_offer_outlined, "About", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
             _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
             _list(Icons.support_agent_outlined, "Support", () async{
@@ -99,22 +97,6 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
                 ),
               ),
             ),
-            // _list(Icons.question_mark_sharp, "Colour Scheme", (){}),
-            // ToggleSwitch(
-            //   minWidth: 90.0,
-            //   initialLabelIndex: 1,
-            //   cornerRadius: 20.0,
-            //   activeFgColor: Colors.black,
-            //   inactiveBgColor: Colors.white,
-            //   inactiveFgColor: Colors.black,
-            //   totalSwitches: 2,
-            //   labels: ['Light', 'Dark'],
-            //   icons: [Icons.sunny, Icons.nights_stay_outlined],
-            //   activeBgColors: [[Color(0x535763)],[Constants.searchBarColour]],
-            //   onToggle: (index) {
-            //     print('switched to: $index');
-            //   },
-            // ),
             SizedBox(height: 50,)
           ],
         ),

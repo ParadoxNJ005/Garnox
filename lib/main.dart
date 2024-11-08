@@ -1,12 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:sembreaker/pages/HomePage.dart';
 import 'package:sembreaker/pages/splash_screen.dart';
 import 'package:sembreaker/utils/contstants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +33,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late FirebaseMessaging firebaseMessaging;
+  // late FirebaseMessaging firebaseMessaging;
 
   @override
   void initState() {
@@ -46,8 +43,8 @@ class _MyAppState extends State<MyApp> {
       statusBarColor: Colors.white,
     ));
 
-    firebaseMessaging = FirebaseMessaging.instance;
-    firebaseMessaging.subscribeToTopic('notifications');
+    // firebaseMessaging = FirebaseMessaging.instance;
+    // firebaseMessaging.subscribeToTopic('notifications');
   }
 
   @override

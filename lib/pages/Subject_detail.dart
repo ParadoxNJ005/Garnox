@@ -1,15 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../components/custom_helpr.dart';
 import '../database/Locals.dart';
 import '../models/SpecificSubjectModel.dart';
-import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
 import 'OpenPdf.dart';
 import 'SearchPage.dart';

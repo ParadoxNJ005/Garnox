@@ -1,12 +1,11 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../components/Custom_navDrawer.dart';
 import '../components/custom_helpr.dart';
@@ -163,7 +162,7 @@ class _SearchPageState extends State<SearchPage> {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () {
-          LOCALs.recents(temp.Title,temp.URL,temp.URL);
+          LOCALs.recents(temp.Title,temp.URL,temp.Type);
           // log("${temp.Type}");
           if (temp.Type == "material" || temp.Type == "papers") {
             Navigator.push(context, MaterialPageRoute(builder: (_) => OpenPdf(link: temp.URL)));
@@ -239,62 +238,6 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
-
-  // void _showBottomSheet(String URL) {
-  //   var mq = MediaQuery.of(context).size;
-  //   showModalBottomSheet(
-  //     context: context,
-  //     shape: const RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.only(
-  //         topLeft: Radius.circular(20),
-  //         topRight: Radius.circular(20),
-  //       ),
-  //     ),
-  //     builder: (_) {
-  //       return ListView(
-  //         shrinkWrap: true,
-  //         padding: EdgeInsets.only(top: mq.height * .01, bottom: mq.height * .05),
-  //         children: [
-  //           Divider(indent: 50, endIndent: 50, color: Colors.grey, thickness: 5),
-  //           SizedBox(height: 20),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //             children: [
-  //               ElevatedButton(
-  //                 style: ElevatedButton.styleFrom(
-  //                   shape: const CircleBorder(),
-  //                   backgroundColor: Colors.white,
-  //                   fixedSize: Size(mq.width * .3, mq.height * .15),
-  //                 ),
-  //                 onPressed: () async {},
-  //                 child: SvgPicture.asset("assets/svgIcons/file.svg"),
-  //               ),
-  //               ElevatedButton(
-  //                 style: ElevatedButton.styleFrom(
-  //                   shape: const CircleBorder(),
-  //                   backgroundColor: Colors.white,
-  //                   fixedSize: Size(mq.width * .3, mq.height * .15),
-  //                 ),
-  //                 onPressed: () async {
-  //                   FileDownloader.downloadFile(
-  //                     url: URL,
-  //                     onDownloadCompleted: (value) {
-  //                       log("Downloaded: $value");
-  //                     },
-  //                     onDownloadError: (e) {
-  //                       log("Error in downloading: $e");
-  //                     },
-  //                   );
-  //                 },
-  //                 child: Image.asset("assets/svgIcons/download.png"),
-  //               ),
-  //             ],
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
 
   Future<void> _showDownloadInstructions(String url) async {
     showDialog(

@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../models/SemViseSubModel.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../models/recentsModel.dart';

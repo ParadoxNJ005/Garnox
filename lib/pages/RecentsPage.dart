@@ -1,11 +1,8 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart'; // Added for clipboard functionality
 import 'package:url_launcher/url_launcher.dart'; // Added for launching URLs
 import '../components/custom_helpr.dart';
@@ -32,21 +29,21 @@ class _RecentsPageState extends State<RecentsPage> {
   @override
   void initState() {
     super.initState();
-    _requestPermissions();
+    // _requestPermissions();
   }
 
-  Future<void> _requestPermissions() async {
-    var status = await Permission.storage.status;
-    if (!status.isGranted) {
-      if (await Permission.storage.request().isGranted) {
-        log("Storage permission granted");
-      } else {
-        log("Storage permission denied");
-      }
-    } else {
-      log("Storage permission already granted");
-    }
-  }
+  // Future<void> _requestPermissions() async {
+  //   var status = await Permission.storage.status;
+  //   if (!status.isGranted) {
+  //     if (await Permission.storage.request().isGranted) {
+  //       log("Storage permission granted");
+  //     } else {
+  //       log("Storage permission denied");
+  //     }
+  //   } else {
+  //     log("Storage permission already granted");
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,6 +148,7 @@ class _RecentsPageState extends State<RecentsPage> {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () async {
+          // log("${temp.Type} ${temp.URL}");
           if(temp.Type == "material" || temp.Type == "papers"){
             Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL)));
           }

@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:math';
 import 'package:flutter/services.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:share/share.dart';
-import 'package:url_launcher/link.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -19,9 +16,6 @@ import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
 import 'OpenPdf.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:dio/dio.dart';
-import 'package:path_provider/path_provider.dart';
-
 import 'RecentsPage.dart';
 import 'SearchPage.dart';
 import 'Subject_detail.dart';
@@ -511,118 +505,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  // void _showBottomSheet(String URL){
-  //   var mq = MediaQuery.of(context).size;
-  //   showModalBottomSheet(
-  //       context: context,
-  //       shape: const RoundedRectangleBorder(
-  //           borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(20), topRight: Radius.circular(20))),
-  //       builder: (_) {
-  //         return ListView(
-  //           shrinkWrap: true,
-  //           padding:
-  //           EdgeInsets.only(top: mq.height * .01, bottom: mq.height * .05),
-  //           children: [
-  //             // const Text(
-  //             //   'Pick Profile Picture',
-  //             //   textAlign: TextAlign.center,
-  //             //   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-  //             // ),
-  //             Divider(indent: 50,endIndent: 50,color: Colors.grey,thickness: 5,),
-  //             SizedBox(
-  //               height: 20,
-  //             ),
-  //             Row(
-  //               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-  //               children: [
-  //                 ElevatedButton(
-  //                     style: ElevatedButton.styleFrom(
-  //                         shape: const CircleBorder(),
-  //                         backgroundColor: Colors.white,
-  //                         fixedSize: Size(mq.width * .3, mq.height * .15)),
-  //                     onPressed: () async {
-  //                     },
-  //                     // child: Image.asset('assets/blue icons/share-Recovered.png')),
-  //                     child: SvgPicture.asset("assets/svgIcons/file.svg",),),
-  //
-  //             ElevatedButton(
-  //                   style: ElevatedButton.styleFrom(
-  //                   shape: const CircleBorder(),
-  //                   backgroundColor: Colors.white,
-  //                   fixedSize: Size(mq.width * .3, mq.height * .15),),
-  //                   onPressed: () async {
-  //                   const String url = 'https://drive.google.com/uc?id=1VFA_L6lxChyR6xOvI258S6H1ZrHYJwbN';
-  //                   try {
-  //                     var dir = await getApplicationDocumentsDirectory();
-  //                     String savePath = "${dir.path}/downloaded.pdf";
-  //
-  //                     Dio dio = Dio();
-  //                     await dio.download(url, savePath);
-  //
-  //                     // log("File downloaded at $savePath");
-  //                   // Open the file using a PDF viewer package
-  //                   } catch (e) {
-  //                      // log("Error downloading file: $e");
-  //                   }
-  //             },
-  //                 child: Image.asset("assets/svgIcons/download.png"),
-  //             )
-  //
-  //
-  //         // child: Image.asset('assets/blue icons/download-Recovered.png'))
-  //               ],
-  //             )
-  //           ],
-  //         );
-  //       });
-  // }
-
   Widget _buildShimmer() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 0,),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        "assets/svgIcons/hamburger.svg",
-                        color: Constants.BLACK,
-                      ),
-                      onPressed: () {},
-                    ),
-                    SizedBox(width: 10,),
-                    Text(
-                      'Home',
-                      style: GoogleFonts.epilogue(
-                        textStyle: TextStyle(
-                          fontSize: 25,
-                          color: Constants.BLACK,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                IconButton(
-                  icon: SvgPicture.asset(
-                    "assets/svgIcons/notification.svg",
-                    color: Constants.BLACK,
-                  ),
-                  onPressed: () {
-
-                  },
-                ),
-              ]
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.only(top: 0),
             child: Row(
               children: [
                 Icon(Icons.search),
@@ -631,23 +521,8 @@ class _HomePageState extends State<HomePage> {
                   "Search subjects...", style: TextStyle(),
                 ),
               ],
-            ),
-            // child: TextField(
-            //   decoration: InputDecoration(
-            //     hintText: 'Search subjects...',
-            //     prefixIcon: Icon(Icons.search),
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(8.0),
-            //     ),
-            //   ),
-            //   onChanged: (text) {
-            //     // setState(() {
-            //     // });
-            //     // Implement search logic here
-            //   },
-            // ),
-          ),
-          SizedBox(height: 20),
+            ),),
+          SizedBox(height: 30),
           Text(
             "Subjects",
             style: GoogleFonts.epilogue(
@@ -728,7 +603,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFileShimmer() {
     return Column(
-      children: List.generate(2, (index) =>
+      children: List.generate(3, (index) =>
           Padding(
             padding: EdgeInsets.symmetric(vertical: 5.0),
             child: Shimmer.fromColors(

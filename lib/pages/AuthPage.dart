@@ -6,7 +6,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
 import '../components/custom_helpr.dart';
 import '../database/Apis.dart';
-import '../utils/contstants.dart';
 import 'CollegeDetails.dart';
 import 'HomePage.dart';
 

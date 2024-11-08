@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class OpenPdf extends StatefulWidget {

@@ -1,19 +1,12 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Import for SVG support
 import 'package:google_fonts/google_fonts.dart';
-
 import '../utils/contstants.dart';
 import 'HomePage.dart';
 import 'landingPage.dart';
-
-/*
-after this page there should be 3 landing pages if the user is not logged int
-or lese it should direct to the homesreen
- */
 
 class SplashScreen extends StatefulWidget {
   @override
