@@ -5,6 +5,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart'; // Added for clipboard functionality
 import 'package:url_launcher/url_launcher.dart'; // Added for launching URLs
+import '../components/Custom_navDrawer.dart';
 import '../components/custom_helpr.dart';
 import '../components/nocontent_animatedtext.dart';
 import '../database/Locals.dart';
@@ -61,14 +62,16 @@ class _RecentsPageState extends State<RecentsPage> {
             ),
           ),
         ),
-        leading: IconButton(
-          icon: SvgPicture.asset(
-            "assets/svgIcons/hamburger.svg",
-            color: Constants.BLACK,
+        leading: Builder(
+          builder: (context) => IconButton(
+            icon: SvgPicture.asset(
+              "assets/svgIcons/hamburger.svg",
+              color: Constants.BLACK,
+            ),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
           ),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
         ),
         actions: [
           IconButton(
@@ -76,10 +79,13 @@ class _RecentsPageState extends State<RecentsPage> {
               "assets/svgIcons/notification.svg",
               color: Constants.BLACK,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+            },
           ),
         ],
       ),
+      drawer: CustomNavDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

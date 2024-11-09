@@ -64,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
           backgroundColor: Colors.white,
           elevation: 0,
           title: Text(
-            'Subjects',
+            'Search',
             style: GoogleFonts.epilogue(
               textStyle: TextStyle(
                 color: Constants.BLACK,
@@ -72,14 +72,16 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              "assets/svgIcons/hamburger.svg",
-              color: Constants.BLACK,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: SvgPicture.asset(
+                "assets/svgIcons/hamburger.svg",
+                color: Constants.BLACK,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
           ),
           actions: [
             IconButton(
@@ -88,7 +90,7 @@ class _SearchPageState extends State<SearchPage> {
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                // Handle notification action
+                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
               },
             ),
           ],

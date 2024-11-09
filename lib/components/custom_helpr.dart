@@ -7,11 +7,11 @@ class Dialogs{
       content: Center(
         child: Text(
           t,
-          style: TextStyle(color: Constants.BLACK, fontSize: 15),
+          style: TextStyle(color: Constants.WHITE, fontSize: 15),
         ),
       ),
-      backgroundColor: Constants.WHITE,
-      duration: Duration(seconds: 3),
+      backgroundColor: Constants.APPCOLOUR,
+      duration: Duration(seconds: 1),
     );
 
     ScaffoldMessenger.of(context).showSnackBar(snackBar);

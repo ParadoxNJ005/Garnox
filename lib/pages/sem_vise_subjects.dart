@@ -62,14 +62,16 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
               ),
             ),
           ),
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              "assets/svgIcons/hamburger.svg",
-              color: Constants.BLACK,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: SvgPicture.asset(
+                "assets/svgIcons/hamburger.svg",
+                color: Constants.BLACK,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
           ),
           actions: [
             IconButton(
@@ -78,7 +80,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                // Handle notification action
+                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
               },
             ),
           ],
@@ -98,7 +100,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
               }
             },
             child: Padding(
-              padding: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.only(top: 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

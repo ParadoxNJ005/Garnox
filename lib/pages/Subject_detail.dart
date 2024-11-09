@@ -4,12 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../components/Custom_navDrawer.dart';
 import '../components/custom_helpr.dart';
 import '../database/Locals.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../utils/contstants.dart';
 import 'OpenPdf.dart';
 import 'SearchPage.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SubjectDetail extends StatefulWidget {
   final SpecificSubject subject;
@@ -55,14 +57,16 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
               ),
             ),
           ),
-          leading: IconButton(
-            icon: SvgPicture.asset(
-              "assets/svgIcons/hamburger.svg",
-              color: Constants.BLACK,
+          leading: Builder(
+            builder: (context) => IconButton(
+              icon: SvgPicture.asset(
+                "assets/svgIcons/hamburger.svg",
+                color: Constants.BLACK,
+              ),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
             ),
-            onPressed: () {
-              // Handle drawer opening
-            },
           ),
           actions: [
             IconButton(
@@ -71,7 +75,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                // Handle notification action
+                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
               },
             ),
           ],
@@ -89,6 +93,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
             ),
           ),
         ),
+        drawer: CustomNavDrawer(),
         body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: WillPopScope(
@@ -204,9 +209,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                   log("Popup menu item selected: $value");
                   switch (value) {
                     case 'share':
-                      log("Copying link to clipboard");
-                      Clipboard.setData(ClipboardData(text: link));
-                      Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
+                      Share.share("Here is the Url of ${title} \n ${link}");
                       break;
                     case 'download':
                       log("Download selected");
