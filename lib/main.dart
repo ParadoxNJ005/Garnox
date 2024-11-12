@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:sembreaker/pages/HomePage.dart';
 import 'package:sembreaker/pages/splash_screen.dart';
 import 'package:sembreaker/utils/contstants.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,6 +22,7 @@ Future<void> main() async {
     // Introduce a delay before calling set()
     // await Future.delayed(Duration(milliseconds: 500)); // Adjust delay as needed
     //set(); // Assuming 'set()' is defined elsewhere
+     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   } catch (e) {
     print('Error initializing Firebase:$e');
   }
