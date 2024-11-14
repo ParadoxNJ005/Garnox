@@ -13,6 +13,7 @@ import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'NotificationPage.dart';
 import 'OpenPdf.dart';
 
 class RecentsPage extends StatefulWidget {
@@ -80,7 +81,7 @@ class _RecentsPageState extends State<RecentsPage> {
               color: Constants.BLACK,
             ),
             onPressed: () {
-              Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
             },
           ),
         ],

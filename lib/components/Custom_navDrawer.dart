@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import '../database/Apis.dart';
 import '../pages/AuthPage.dart';
+import '../pages/NotificationPage.dart';
 import '../pages/ProfilePage.dart';
 import '../pages/developerPage.dart';
 import '../pages/sem_vise_subjects.dart';
@@ -73,7 +74,7 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
               )
             ),
             _list(Icons.calendar_today_rounded, "Subjects", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>SemViseSubjects()));}),
-            _list(Icons.notifications_active, "Notifications", (){Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");}),
+            _list(Icons.notifications_active, "Notifications", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));}),
             _list(Icons.location_on_outlined, "Address", (){Dialogs.showSnackbar(context, "😞 Currently we do not have Address functionality");}),
             _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => ProfilePage()));}),
             // _list(Icons.payment, "Plan Your Day", (){

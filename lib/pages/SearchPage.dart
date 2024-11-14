@@ -12,6 +12,7 @@ import '../components/custom_helpr.dart';
 import '../database/Locals.dart';
 import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
+import 'NotificationPage.dart';
 import 'OpenPdf.dart';
 
 class SearchPage extends StatefulWidget {
@@ -90,7 +91,7 @@ class _SearchPageState extends State<SearchPage> {
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
               },
             ),
           ],
