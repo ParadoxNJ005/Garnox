@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "713083156511-e96oktq2mmcoeqnh12ll6u08g0i1klm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.untitled1",
+            "certificate_hash": "38d11c4bafa7c9ca498c6e30faec362d73686da6"
+          }
+        },
+        {
           "client_id": "713083156511-o7r7ga82st5b4njkchokso0c5s67kb7f.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -72,6 +80,14 @@
           "android_info": {
             "package_name": "com.garnox.geekhaven",
             "certificate_hash": "cd87239e82d89aa7b8947b67a4b0741019a9922b"
+          }
+        },
+        {
+          "client_id": "713083156511-d9okirii3uav5kf2r2ndk0smudahsih7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garnox.geekhaven",
+            "certificate_hash": "38d11c4bafa7c9ca498c6e30faec362d73686da6"
           }
         },
         {

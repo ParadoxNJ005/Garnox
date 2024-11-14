@@ -57,6 +57,9 @@ dependencies:
   change_app_package_name: ^1.4.0
   icons_launcher: ^3.0.0
   firebase_crashlytics: ^4.1.4
+  firebase_messaging: ^15.1.5
+  flutter_local_notifications: ^18.0.1
+  timeago: ^3.7.0
 
 dev_dependencies:
   flutter_test:

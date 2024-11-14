@@ -9,6 +9,7 @@ import '../components/custom_helpr.dart';
 import '../database/Locals.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../utils/contstants.dart';
+import 'NotificationPage.dart';
 import 'OpenPdf.dart';
 import 'SearchPage.dart';
 import 'package:share_plus/share_plus.dart';
@@ -75,7 +76,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
               },
             ),
           ],

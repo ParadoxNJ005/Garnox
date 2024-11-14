@@ -11,6 +11,7 @@ import '../database/Apis.dart';
 import '../models/SemViseSubModel.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../utils/contstants.dart';
+import 'NotificationPage.dart';
 import 'SearchPage.dart';
 import 'Subject_detail.dart';
 
@@ -80,7 +81,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
               },
             ),
           ],

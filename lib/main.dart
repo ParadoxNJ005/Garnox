@@ -1,10 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sembreaker/pages/HomePage.dart';
 import 'package:sembreaker/pages/splash_screen.dart';
 import 'package:sembreaker/utils/contstants.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+
+import 'database/notif_api.dart';
+
+final navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +31,47 @@ Future<void> main() async {
   } catch (e) {
     print('Error initializing Firebase:$e');
   }
+
+  // Request notification permission and initialize notifications if granted
+  bool permissionGranted = await requestNotificationPermission();
+
+  if (permissionGranted) {
+    // If permission granted, subscribe to topic and initialize notifications
+    FirebaseMessaging.instance.subscribeToTopic('all').then((_) {
+      print('Subscribed to "all" topic');
+    }).catchError((error) {
+      print('Failed to subscribe to topic: $error');
+    });
+
+    await FirebaseApi().initNotifications();
+  } else {
+    print('Notifications will not be initialized as permission is denied.');
+  }
   runApp(MyApp());
+}
+
+Future<bool> requestNotificationPermission() async {
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+    print('User granted permission');
+    return true; // Permission granted
+  } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    print('User granted provisional permission');
+    return true; // Provisional permission granted, still allow notifications
+  } else {
+    print('User declined or has not accepted permission');
+    return false; // Permission denied
+  }
 }
 
 class MyApp extends StatefulWidget {

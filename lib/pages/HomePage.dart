@@ -14,6 +14,7 @@ import '../database/Locals.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
+import 'NotificationPage.dart';
 import 'OpenPdf.dart';
 import 'package:shimmer/shimmer.dart';
 import 'RecentsPage.dart';
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               color: Constants.BLACK,
             ),
             onPressed: () {
-              Dialogs.showSnackbar(context, "Oops! 😞 No Notification to Show");
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
             },
           ),
         ],

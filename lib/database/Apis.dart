@@ -285,4 +285,24 @@ class APIs {
 
     await auth.signOut();
   }
+
+  //----------------------------Notification Display Api--------------------------------------------//
+  static Future<List<Map<String, dynamic>>> fetchNotifications() async {
+    try {
+      final notifications = <Map<String, dynamic>>[];
+
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Notification')
+          .orderBy('time', descending: true)
+          .get();
+      for (var doc in snapshot.docs) {
+        notifications.add(doc.data() as Map<String, dynamic>);
+      }
+
+      return notifications;
+    } catch (e) {
+      print("Error fetching notifications: $e");
+      return [];
+    }
+  }
 }
