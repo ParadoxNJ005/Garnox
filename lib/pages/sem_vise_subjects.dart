@@ -140,31 +140,53 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
   }
 
   Widget _subCardList(List<String> eceList) {
-    if(eceList.isEmpty){
+    bool isAnyTrue = eceList.any((subName) {
+      List<String> parts = subName.split('_');
+      if (parts.length == 2) {
+        String number = parts[0]; // "1"
+        return (number == APIs.me!.semester.toString());
+      }
+      return false;
+    });
+
+    if (eceList.isEmpty || !isAnyTrue) {
       return Expanded(
         child: Center(
           child: Container(
-            padding: EdgeInsets.only(top: 100,left: 50,right: 50),
+            padding: EdgeInsets.only(top: 100, left: 50, right: 50),
             width: double.infinity,
             height: 600,
             child: Center(
               child: Column(
                 children: [
                   Lottie.asset('assets/animation/nodatafound.json'),
-                  SizedBox(height: 20,),
-                  Container(width: double.infinity ,child: Center(child: Text("✏️ NO DATA FOUND!!" ,style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),))),
+                  SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    child: Center(
+                      child: Text(
+                        "✏️ NO DATA FOUND!!",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
           ),
         ),
       );
-    }else
-    return Column(
-      children: eceList.map((subName) {
-        return _subCard(subName);
-      }).toList(),
-    );
+    } else {
+      return Column(
+        children: eceList.map((subName) {
+          return _subCard(subName);
+        }).toList(),
+      );
+    }
   }
 
   Widget _subCard(String subName) {

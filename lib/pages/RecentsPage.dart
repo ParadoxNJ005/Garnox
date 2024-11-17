@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart'; // Added for clipboard functionality
+import 'package:sembreaker/pages/SearchPage.dart';
 import 'package:url_launcher/url_launcher.dart'; // Added for launching URLs
 import '../components/Custom_navDrawer.dart';
 import '../components/custom_helpr.dart';
@@ -91,22 +92,27 @@ class _RecentsPageState extends State<RecentsPage> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Search subjects...',
-                  prefixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
+            InkWell(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (_)=>const SearchPage()));
+              },
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search subjects...',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
                   ),
+                  // onChanged: (text) {
+                  //   setState(() {
+                  //     _isSearching = text.isNotEmpty;
+                  //   });
+                  //   // Implement search logic here
+                  // },
                 ),
-                onChanged: (text) {
-                  setState(() {
-                    _isSearching = text.isNotEmpty;
-                  });
-                  // Implement search logic here
-                },
               ),
             ),
             FutureBuilder(

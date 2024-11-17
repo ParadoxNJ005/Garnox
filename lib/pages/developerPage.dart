@@ -69,6 +69,12 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        title: const Text("About" , style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold),),
+        leading: IconButton(icon: const Icon(Icons.arrow_back , color: Colors.black,), onPressed: (){
+          Navigator.pop(context);
+        },),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -141,7 +147,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _devimage(url, "Lord Naitik", "Tech Lead"),
-                        _devimage(url, "Mokshe", "Manager"),
+                        _devimage(url, "Aashray", "Manager"),
                       ],
                     ),
                   ),
@@ -151,8 +157,8 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        _devimage(url, "Pratham", "UI/UX Designer"),
-                        _devimage(url, "Vansh Dhawan", "Tech leaderr"),
+                        _devimage(url, "Aarav", "UI/UX Designer"),
+                        _devimage(url, "Grish", "Doctor"),
                       ],
                     ),
                   )

@@ -268,7 +268,7 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
 
                     try {
                       // Perform the update operation
-                      await APIs.updateCollegeDetails(hi(Year), Branch, 1);
+                      await APIs.updateCollegeDetails(hi(Year), Branch, Semester);
 
                       // Dismiss the progress indicator
                       Navigator.pop(context);

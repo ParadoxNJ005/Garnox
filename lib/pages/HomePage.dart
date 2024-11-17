@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _initializeData() async {
     await APIs.offlineInfo();
     await LOCALs.MakeSearchFunctionality();
+    // _handleRefresh();
     // _findFromSearchList = await LOCALs.finalSeachDataList?? [];
     String branchName = APIs.me!.branch!;
     if (branchName == "ECE") {
@@ -107,12 +108,12 @@ class _HomePageState extends State<HomePage> {
               color: Constants.BLACK,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const NotificationScreen()));
             },
           ),
         ],
       ),
-      drawer: CustomNavDrawer(),
+      drawer: const CustomNavDrawer(),
       body: RefreshIndicator(
         onRefresh: _handleRefresh,
         child: FutureBuilder(
@@ -226,13 +227,16 @@ class _HomePageState extends State<HomePage> {
                         } else if (snapshot.hasData) {
                           _list = snapshot.data!;
                           if (_list.isEmpty) {
-                            return Center(
-                              child: Text(
-                                "✏️ NO DATA FOUND!!",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w500,
+                            return SizedBox(
+                              height: 200,
+                              child: Center(
+                                child: Text(
+                                  "✏️ NO DATA FOUND!!",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             );
@@ -260,15 +264,51 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  //
+  // Widget _subCardList() {
+  //   if (eceList.isEmpty) {
+  //     return Container(width: double.infinity,
+  //         child: Center(child: Text("✏️ NO DATA FOUND!!", style: TextStyle(
+  //             color: Colors.black,
+  //             fontSize: 20,
+  //             fontWeight: FontWeight.w500),)));
+  //   } else
+  //     return SingleChildScrollView(
+  //       scrollDirection: Axis.horizontal,
+  //       child: Row(
+  //         children: eceList.map((subName) {
+  //           return _subCard(subName);
+  //         }).toList(),
+  //       ),
+  //     );
+  // }
 
   Widget _subCardList() {
-    if (eceList.isEmpty) {
-      return Container(width: double.infinity,
-          child: Center(child: Text("✏️ NO DATA FOUND!!", style: TextStyle(
+    bool isAnyTrue = eceList.any((subName) {
+      List<String> parts = subName.split('_');
+      if (parts.length == 2) {
+        String number = parts[0]; // "1"
+        return (number == APIs.me!.semester.toString());
+      }
+      return false;
+    });
+
+    if (!isAnyTrue) {
+      return Container(
+        width: double.infinity,
+        height: 200,
+        child: Center(
+          child: Text(
+            "✏️ NO DATA FOUND!!",
+            style: TextStyle(
               color: Colors.black,
               fontSize: 20,
-              fontWeight: FontWeight.w500),)));
-    } else
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    } else {
       return SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -277,6 +317,7 @@ class _HomePageState extends State<HomePage> {
           }).toList(),
         ),
       );
+    }
   }
 
   Widget _subCard(String subName) {
@@ -284,7 +325,6 @@ class _HomePageState extends State<HomePage> {
     String number = "";
     String department = "";
     bool check = true;
-
 
     if (parts.length == 2) {
       number = parts[0]; // "1"
@@ -294,15 +334,7 @@ class _HomePageState extends State<HomePage> {
       print("Invalid format");
     }
 
-    if(check){
-      setState(() {
-        isthere = true;
-      });
-    }else{
-
-    }
-
-    if (check && isthere) {
+    if (check) {
       return InkWell(
         onTap: () async {
           var temp = await storage.read(key: "$department");
@@ -310,8 +342,7 @@ class _HomePageState extends State<HomePage> {
 
           if (temp != null) {
             Map<String, dynamic> tempJson = json.decode(temp);
-            SpecificSubject specificSubject = SpecificSubject.fromJson(
-                tempJson);
+            SpecificSubject specificSubject = SpecificSubject.fromJson(tempJson);
 
             Navigator.push(
               context,

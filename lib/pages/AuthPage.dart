@@ -41,7 +41,7 @@ class _AuthState extends State<Auth> {
         log('\nUser Additional Info: ${user.additionalUserInfo}');
 
         final email = user.user?.email;
-        if (email != null && email.endsWith('@iiita.ac.in')) {
+        if (email != null) {
           if ((await APIs.userExists())) {
             log("User exists, navigating to HomePage");
             Navigator.pushReplacement(

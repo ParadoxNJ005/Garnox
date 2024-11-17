@@ -370,7 +370,7 @@ class _EditProfileState extends State<EditProfile> {
                           try {
                             // Perform the update operation
                             await storage.delete(key: "${APIs.me!.batch!}");
-                            await APIs.updateCollegeDetails(hi(Year), Branch, 1);
+                            await APIs.updateCollegeDetails(hi(Year), Branch, Semester);
                             await APIs.myInfo();
                             await APIs.fetchSemSubjectName();
 
