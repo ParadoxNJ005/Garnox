@@ -4,11 +4,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sembreaker/pages/HomePage.dart';
 
 import '../components/custom_helpr.dart';
 import '../database/Apis.dart';
 import '../utils/contstants.dart';
-import 'ProfilePage.dart';
+import 'NotificationPage.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -95,7 +96,7 @@ class _EditProfileState extends State<EditProfile> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white,),
           onPressed: () {
-            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>ProfilePage()));
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomePage()));
           },
         ),
         actions: [
@@ -106,6 +107,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
             onPressed: () {
               // Handle notification action
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
             },
           ),
         ],
@@ -167,23 +169,23 @@ class _EditProfileState extends State<EditProfile> {
             ),
             SizedBox(height: 20,),
             //-----------------------------Edit Profile button----------------------------//
-            Container(
-              width: double.infinity,
-              height: 40,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 110),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  onPressed: (){},
-                  child: Text("Change Picture",style: TextStyle(color: Colors.white),),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: double.infinity,
+            //   height: 40,
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 110),
+            //     child: ElevatedButton(
+            //       style: ElevatedButton.styleFrom(
+            //         backgroundColor: Colors.black,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(10),
+            //         ),
+            //       ),
+            //       onPressed: (){},
+            //       child: Text("Change Picture",style: TextStyle(color: Colors.white),),
+            //     ),
+            //   ),
+            // ),
 
             //---------------------------Enter Fields------------------------------------------------------//
             Padding(
