@@ -39,6 +39,7 @@ class _HomePageState extends State<HomePage> {
   late GlobalKey<RefreshIndicatorState> refreshKey;
   List<String> eceList = [];
   Random random = Random();
+  bool isthere = false;
 
 
   @override
@@ -71,6 +72,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,27 +107,27 @@ class _HomePageState extends State<HomePage> {
               color: Constants.BLACK,
             ),
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => NotificationScreen()));
             },
           ),
         ],
       ),
       drawer: CustomNavDrawer(),
-      body: FutureBuilder(
-        future: _initializeData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: _buildShimmer(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text("Error: ${snapshot.error}"),
-            );
-          } else {
-            return RefreshIndicator(
-              onRefresh: _handleRefresh,
-              child: WillPopScope(
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: FutureBuilder(
+          future: _initializeData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: _buildShimmer(),
+              );
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text("Error: ${snapshot.error}"),
+              );
+            } else {
+              return WillPopScope(
                 onWillPop: () {
                   if (issearch) {
                     return Future.value(false);
@@ -133,139 +135,131 @@ class _HomePageState extends State<HomePage> {
                     return Future.value(true);
                   }
                 },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 5.0),
-                        child: ListTile(
-                          leading: Icon(Icons.search),
-                          title: Text("Search Subject..."),
-                          onTap: () {
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (_) => SearchPage()));
-                          },
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      Text(
-                        "Subjects",
-                        style: GoogleFonts.epilogue(
-                          textStyle: TextStyle(
-                            color: Constants.BLACK,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          fontSize: 25,
-                        ),
-                      ),
-                      Expanded(child: _subCardList()),
-                      Text(
-                        "My Files",
-                        style: GoogleFonts.epilogue(
-                          textStyle: TextStyle(
-                            color: Constants.BLACK,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          fontSize: 25,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black),
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(Radius.circular(50)),
-                                child: Container(
-                                  height: 25,
-                                  width: 120,
-                                  child: Center(
-                                    child: Text(
-                                      "Recently used ￬",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (_) => RecentsPage()));
-                              },
-                              child: Text(
-                                "See all",
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      FutureBuilder(
-                        future: LOCALs.fetchRecents(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState == ConnectionState.waiting) {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Center(
-                              child: Text("Error: ${snapshot.error}"),
-                            );
-                          } else if (snapshot.hasData) {
-                            _list = snapshot.data!;
-                            if (_list.isEmpty) {
-                              return Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  child: Center(
-                                    child: Text(
-                                      "✏️ NO DATA FOUND!!",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                  ),
-                                ),
-                              );
-                            } else {
-                              return Expanded(
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.vertical,
-                                  child: Column(
-                                    children: _list.map((subName) {
-                                      return _fileCard(subName);
-                                    }).toList(),
-                                  ),
-                                ),
-                              );
-                            }
-                          } else {
-                            return Center(
-                              child: Text("No Files Found"),
-                            );
-                          }
+                child: ListView(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5.0),
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text("Search Subject..."),
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                            builder: (_) => SearchPage(),
+                          ));
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      "Subjects",
+                      style: GoogleFonts.epilogue(
+                        textStyle: TextStyle(
+                          color: Constants.BLACK,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        fontSize: 25,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    _subCardList(),
+                    SizedBox(height: 30,),
+                    Text(
+                      "My Files",
+                      style: GoogleFonts.epilogue(
+                        textStyle: TextStyle(
+                          color: Constants.BLACK,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        fontSize: 25,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(Radius.circular(50)),
+                              child: Container(
+                                height: 25,
+                                width: 120,
+                                child: Center(
+                                  child: Text(
+                                    "Recently used ￬",
+                                    style: TextStyle(fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                builder: (_) => RecentsPage(),
+                              ));
+                            },
+                            child: Text(
+                              "See all",
+                              style: TextStyle(color: Colors.blue),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    FutureBuilder(
+                      future: LOCALs.fetchRecents(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Error: ${snapshot.error}"),
+                          );
+                        } else if (snapshot.hasData) {
+                          _list = snapshot.data!;
+                          if (_list.isEmpty) {
+                            return Center(
+                              child: Text(
+                                "✏️ NO DATA FOUND!!",
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            );
+                          } else {
+                            return Column(
+                              children: _list.map((subName) {
+                                return _fileCard(subName);
+                              }).toList(),
+                            );
+                          }
+                        } else {
+                          return Center(
+                            child: Text("No Files Found"),
+                          );
+                        }
+                      },
+                    ),
+                  ],
                 ),
-              ),
-            );
-          }
-        },
+              );
+            }
+          },
+        ),
       ),
     );
   }
+
 
   Widget _subCardList() {
     if (eceList.isEmpty) {
@@ -299,7 +293,16 @@ class _HomePageState extends State<HomePage> {
     } else {
       print("Invalid format");
     }
-    if (check) {
+
+    if(check){
+      setState(() {
+        isthere = true;
+      });
+    }else{
+
+    }
+
+    if (check && isthere) {
       return InkWell(
         onTap: () async {
           var temp = await storage.read(key: "$department");
@@ -380,6 +383,7 @@ class _HomePageState extends State<HomePage> {
     } else {
       return Container();
     }
+
   }
 
   Widget _fileCard(Recents temp) {

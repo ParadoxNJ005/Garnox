@@ -83,7 +83,7 @@ class FirebaseApi {
             channelDescription: _androidchannel.description, // Channel description
             importance: Importance.max, // Set importance
             priority: Priority.high,   // Set priority
-            icon: 'assets/images/notification.png', // Define app icon for notification
+            icon: "assets/images/finallogo.png", // Define app icon for notification
           ),
         ),
         payload: jsonEncode(message.toMap()),
@@ -95,7 +95,7 @@ class FirebaseApi {
   }
 
   Future<void> initLocalNotifications() async {
-    const android = AndroidInitializationSettings('assets/images/notification.png');
+    const android = AndroidInitializationSettings("assets/images/finallogo.png");
     const settings = InitializationSettings(android: android);
 
     await _localNotifications.initialize(

@@ -50,9 +50,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications"),
-        centerTitle: true,
-        backgroundColor: Constants.APPCOLOUR,
+        title: const Text("Notifications" , style: TextStyle(color: Colors.black),),
+        centerTitle: false,
+        backgroundColor: Colors.white,
+        leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back , color: Colors.black,)),
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator()) // Show a loading spinner while fetching
@@ -62,42 +63,45 @@ class _NotificationScreenState extends State<NotificationScreen> {
           ? const Center(child: Text('No Notifications'))
           : RefreshIndicator(
         onRefresh: _fetchNotifications, // Pull to refresh
-        child: ListView.builder(
-          itemCount: notifications.length,
-          itemBuilder: (context, index) {
-            final notification = notifications[index];
-            return Card(
-              margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-              elevation: 4, // Add some shadow for better depth
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12), // Rounded corners
-              ),
-              child: ListTile(
-                leading: const Icon(Icons.notifications, color: Colors.blue, size: 32),
-                title: Text(
-                  notification['title'] ?? 'Sem Breaker',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+        child: Padding(
+          padding: const EdgeInsets.only(top :25.0),
+          child: ListView.builder(
+            itemCount: notifications.length,
+            itemBuilder: (context, index) {
+              final notification = notifications[index];
+              return Card(
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                elevation: 4, // Add some shadow for better depth
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12), // Rounded corners
+                ),
+                child: ListTile(
+                  leading: const Icon(Icons.notifications, color: Colors.blue, size: 32),
+                  title: Text(
+                    notification['title'] ?? 'Sem Breaker',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                ),
-                subtitle: Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    notification['body'] ?? '',
-                    style: const TextStyle(fontSize: 14),
+                  subtitle: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      notification['body'] ?? '',
+                      style: const TextStyle(fontSize: 14),
+                    ),
                   ),
+                  trailing: Text(
+                    _formatTime(notification['time'] ?? ''),
+                    style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  onTap: () {
+                    // Handle notification tap if needed
+                  },
                 ),
-                trailing: Text(
-                  _formatTime(notification['time'] ?? ''),
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
-                ),
-                onTap: () {
-                  // Handle notification tap if needed
-                },
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );
