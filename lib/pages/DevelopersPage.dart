@@ -20,9 +20,9 @@ class DevelopersPage extends StatelessWidget {
   final List<Developer> developers = [
     Developer(
       imageUrl: 'https://avatars.githubusercontent.com/u/583231?v=4',
-      name: 'John Doe',
-      github: 'https://github.com/johndoe',
-      linkedin: 'https://linkedin.com/in/johndoe',
+      name: 'Aarav',
+      github: 'https://github.com/aarav0180',
+      linkedin: 'https://linkedin.com/in/aarav-kashyap-a061b72a4/',
     ),
     Developer(
       imageUrl: 'https://avatars.githubusercontent.com/u/77547378?v=4',
