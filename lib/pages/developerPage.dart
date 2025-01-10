@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sembreaker/utils/contstants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import '../utils/contstants.dart';
 
 class DeveloperPage extends StatefulWidget {
   const DeveloperPage({super.key});
@@ -13,122 +13,298 @@ class DeveloperPage extends StatefulWidget {
   State<DeveloperPage> createState() => _DeveloperPageState();
 }
 
-class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateMixin {
+class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateMixin{
   late AnimationController _controller1;
   late Animation<Offset> animation1;
   late AnimationController _controller2;
   late Animation<Offset> animation2;
 
   @override
-  void initState() {
+  void initState(){
     super.initState();
-    // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-    //   statusBarColor: Colors.white,
-    //   statusBarIconBrightness: Brightness.dark, // Light or dark depending on background color
-    // ));
 
-    // Initialize Animation 1
     _controller1 = AnimationController(
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
     animation1 = Tween<Offset>(
-      begin: Offset(0.0, -5.0),
-      end: Offset(0.0, 0.0),
+      begin: const Offset(0.0, -5.0),
+      end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _controller1, curve: Curves.bounceInOut),
     );
 
-    // Initialize Animation 2
     _controller2 = AnimationController(
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
     animation2 = Tween<Offset>(
-      begin: Offset(0.0, 5.0),
-      end: Offset(0.0, 0.0),
+      begin: const Offset(0.0, 5.0),
+      end: Offset.zero,
     ).animate(
       CurvedAnimation(parent: _controller2, curve: Curves.bounceOut),
     );
 
-    // Start the animations
     _controller1.forward();
     _controller2.forward();
   }
 
   @override
-  void dispose() {
+  void dispose(){
     _controller1.dispose();
     _controller2.dispose();
     super.dispose();
   }
 
-  String url = "https://i.pinimg.com/originals/a0/e5/8c/a0e58c3357e163667ef29cd152d9556f.png";
+  final String defaultUrl = "https://drive.google.com/file/d/1HIsqYoRY6bs2z95J6qFW8ubIlTSWIcQM/view?usp=sharing";
+
+  Widget _buildDeveloperGrid(){
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('developer').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return const Center(child: Text('Error loading developers'));
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting){
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        var developers = snapshot.data!.docs;
+        var rows = <Widget>[];
+
+        for (var i = 0; i < developers.length; i += 2) {
+          var row = Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              _devImage(
+                developers[i]['image'] ?? defaultUrl,
+                developers[i]['name'] ?? 'Unknown',
+                developers[i]['github'] ?? 'Unknown',
+                developers[i]['linkdin'] ?? 'Unknown'
+              ),
+              if (i + 1 < developers.length)
+                _devImage(
+                  developers[i + 1]['image'] ?? defaultUrl,
+                  developers[i + 1]['name'] ?? 'Unknown',
+                  developers[i]['github'] ?? 'Unknown',
+                  developers[i]['linkdin'] ?? 'Unknown'
+                ),
+            ],
+          );
+
+          rows.add(SlideTransition(
+            position: animation1,
+            child: row,
+          ));
+          rows.add(const SizedBox(height: 20));
+        }
+
+        return Column(children: rows);
+      },
+    );
+  }
+
+  // void openWhatsApp() async {
+  //   final whatsappUrl = 'https://wa.me/?text=${Uri.encodeComponent(message)}';
+  //   if (await launch(whatsappUrl)) {
+  //     await canLaunch(whatsappUrl);
+  //   } else {
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       const SnackBar(content: Text('WhatsApp is not installed on this device')),
+  //     );
+  //   }
+  // }
+
+  Widget _devImage(String url, String name, String github , String linkdin){
+    return Column(
+      children: [
+        InkWell(
+          onTap: (){
+            _showDeveloperDetails(context , name , url , github , linkdin);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: SizedBox(
+              height: 100,
+              width: 100,
+              child: CachedNetworkImage(
+                imageUrl: url,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      colorFilter: const ColorFilter.mode(Colors.white, BlendMode.colorBurn),
+                    ),
+                  ),
+                ),
+                placeholder: (context, url) => const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.person),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Text(
+          name,
+          style: GoogleFonts.epilogue(
+            textStyle: const TextStyle(
+              fontSize: 15,
+              color: Constants.BLACK,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  void _showDeveloperDetails(BuildContext context, String name , String image , String github , String linkdin){
+    showDialog(
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.blue[50]!, Colors.blue[100]!],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  radius: 60,
+                  backgroundImage: NetworkImage(image),
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  name,
+                  style: GoogleFonts.poppins(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blue[900],
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildIconButton(true ,github),
+                    const SizedBox(width: 16),
+                    _buildIconButton(false ,linkdin),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildIconButton(bool a , String url){
+    return GestureDetector(
+      onTap: () async {
+        if (await launch(url)) {
+          await canLaunch(url);
+        } else {
+          debugPrint("Could not launch $url");
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        child: (a) ? Image.asset(
+          'assets/svgIcons/github.png',
+          color: Constants.BLACK,
+          width: 30,
+          height: 30,
+        ) : Image.asset(
+          'assets/svgIcons/linkedin.png',
+          color: Constants.BLACK,
+          width: 30,
+          height: 30,
+        ),
+      ),
+    );
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("About" , style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold),),
-        leading: IconButton(icon: const Icon(Icons.arrow_back , color: Colors.black,), onPressed: (){
-          Navigator.pop(context);
-        },),
+        title: const Text(
+          "About",
+          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () => Navigator.pop(context),
+        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              SizedBox(height: 20),
-              SlideTransition(
-                position: animation1,
-                child: Center(
-                  child: Container(
-                    width: double.infinity,
-                    height: 80,
-                    margin: EdgeInsets.symmetric(horizontal: 10),
-                    decoration: BoxDecoration(
-                      color: Constants.APPCOLOUR,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/svgIcons/applogo.svg',
-                            color: Constants.WHITE,
-                            height: 40, // Adjust height as needed
-                            width: 40, // Adjust width as needed
-                          ),
-                          SizedBox(width: 20),
-                          Text(
-                            'SEMBREAKER',
-                            style: GoogleFonts.epilogue(
-                              textStyle: TextStyle(
-                                fontSize: 30,
-                                color: Constants.WHITE,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 30),
+              const SizedBox(height: 20),
+              // App Logo Section
               SlideTransition(
                 position: animation1,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  height: 80,
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Constants.APPCOLOUR,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Center(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(
+                          'assets/svgIcons/applogo.svg',
+                          colorFilter: const ColorFilter.mode(Constants.WHITE, BlendMode.srcIn),
+                          height: 40,
+                          width: 40,
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          'SEMBREAKER',
+                          style: GoogleFonts.epilogue(
+                            textStyle: const TextStyle(
+                              fontSize: 30,
+                              color: Constants.WHITE,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30),
+              // Team Section Title
+              SlideTransition(
+                position: animation1,
+                child: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Text(
                       'Meet Our Team',
                       style: GoogleFonts.epilogue(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 25,
                           color: Constants.BLACK,
                           fontWeight: FontWeight.bold,
@@ -138,43 +314,21 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                   ),
                 ),
               ),
-              SizedBox(height: 30),
-              Column(
-                children: [
-                  SlideTransition(
-                    position: animation1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _devimage(url, "Lord Naitik", "Tech Lead"),
-                        _devimage(url, "Aashray", "Manager"),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20,),
-                  SlideTransition(
-                    position: animation1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        _devimage(url, "Aarav", "UI/UX Designer"),
-                        _devimage(url, "Grish", "Doctor"),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
+              // Developer Grid
+              _buildDeveloperGrid(),
+              const SizedBox(height: 30),
+              // About Section
               SlideTransition(
                 position: animation2,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Text(
                       'About',
                       style: GoogleFonts.epilogue(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 25,
                           color: Constants.BLACK,
                           fontWeight: FontWeight.bold,
@@ -184,17 +338,21 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               SlideTransition(
                 position: animation2,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: Text(
-                      'Hola Friends, it’s a common scene on the night before the examinations, we the students knock at each of our topper’s door to get his/her notes and waste a lot of our precious time in doing that. What if there is a central place where you would get all the magical notes and material to pass the papers, the destination is here, the SemBreaker App. Sounds fun Right ?',
+                      'Hola Friends, its a common scene on the night before the examinations, '
+                    'we the students knock at each of our toppers door to get his/her notes '
+                    'and waste a lot of our precious time in doing that. What if there is a '
+                      'central place where you would get all the magical notes and material to '
+                      'pass the papers, the destination is here, the SemBreaker App. Sounds fun Right?',
                       style: GoogleFonts.epilogue(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                           fontSize: 18,
                           color: Constants.BLACK,
                           fontWeight: FontWeight.bold,
@@ -205,12 +363,13 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                   ),
                 ),
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
+              // IIITA Community Section
               SlideTransition(
                 position: animation2,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
                   height: 500,
                   decoration: BoxDecoration(
                     color: Constants.BLACK,
@@ -220,7 +379,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         decoration: BoxDecoration(
                           color: Constants.APPCOLOUR,
                           borderRadius: BorderRadius.circular(15),
@@ -229,11 +388,11 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                         height: 200,
                       ),
                       Padding(
-                        padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: Text(
                           'Join \nIIITA Community \nnow',
                           style: GoogleFonts.epilogue(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                               fontSize: 35,
                               color: Constants.WHITE,
                               fontWeight: FontWeight.bold,
@@ -244,21 +403,16 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                       Container(
                         height: 45,
                         width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: ElevatedButton(
                           onPressed: () async {
-                            const url = 'https://www.instagram.com/geekhaven_iiita/?hl=en';
-                            if (await canLaunch(url)) {
-                              await launch(url);
+                            const url = 'https://geekhaven.iiita.ac.in/';
+                            if (await launch(url)) {
+                              await canLaunch(url);
                             } else {
-                              // You can show an error message or log the error
-                              throw 'Could not launch $url';
+                              debugPrint("Could not launch $url");
                             }
                           },
-                          child: Text(
-                            "Join",
-                            style: TextStyle(color: Constants.WHITE, fontSize: 25),
-                          ),
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(Constants.APPCOLOUR),
                             shape: MaterialStateProperty.all(
@@ -267,21 +421,74 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                               ),
                             ),
                           ),
+                          child: const Text(
+                            "Join",
+                            style: TextStyle(color: Constants.WHITE, fontSize: 25),
+                          ),
                         ),
                       ),
-                      // Add
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                            GestureDetector(
+                              onTap: () async {
+                                if (await launch("https://www.instagram.com/geekhaven_iiita/?hl=en")) {
+                                  await canLaunch("https://www.instagram.com/geekhaven_iiita/?hl=en");
+                                } else {
+                                  debugPrint("Could not launch instagram");
+                                }
+                            },
+                            child: Image.asset(
+                              'assets/svgIcons/instagram.png',
+                              color: Constants.WHITE,
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (await launch("https://discord.com/channels/885149696249708635/885151791329722448")) {
+                                await canLaunch("https://discord.com/channels/885149696249708635/885151791329722448");
+                              } else {
+                                debugPrint("Could not launch discord");
+                              }
+                            },
+                            child: Image.asset(
+                              'assets/svgIcons/discord.png',
+                              color: Constants.WHITE,
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              if (await launch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all")) {
+                                await canLaunch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all");
+                              } else {
+                                debugPrint("Could not launch linkedin");
+                              }
+                            },
+                            child: Image.asset(
+                              'assets/svgIcons/linkedin.png',
+                              color: Constants.WHITE,
+                              width: 40,
+                              height: 40,
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
-                padding:  EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Text(
                   'Made with ❤️ By Geek Heaven',
-                  // "",
                   style: GoogleFonts.epilogue(
-                    textStyle: TextStyle(
+                    textStyle: const TextStyle(
                       fontSize: 15,
                       color: Constants.BLACK,
                       fontWeight: FontWeight.bold,
@@ -289,60 +496,11 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                   ),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget _devimage(String URL, String Name, String Position){
-    return  Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(100),
-          child: Container(
-            height: 100,
-            width: 100,
-            child: CachedNetworkImage(
-              imageUrl: URL,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                      colorFilter:
-                      ColorFilter.mode(Colors.white, BlendMode.colorBurn)),
-                ),
-              ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-          ),
-        ),
-        SizedBox(height: 10,),
-        Text(
-          Name,
-          style: GoogleFonts.epilogue(
-            textStyle: TextStyle(
-              fontSize: 15,
-              color: Constants.BLACK,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Text(
-          Position,
-          style: GoogleFonts.epilogue(
-            textStyle: TextStyle(
-              fontSize: 15,
-              color: Constants.BLACK,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        )
-      ],
     );
   }
 }

@@ -36,28 +36,28 @@ class _LandingpageState extends State<Landingpage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 285),
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => Auth(),
-                  ),
-                );
-              },
-              child: Text(
-                "Skip",
-                style: TextStyle(
-                  fontSize: 19,
-                  color: Color(0xFF407BFF),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "MontSerrat",
-                ),
-              ),
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 285),
+          //   child: TextButton(
+          //     onPressed: () {
+          //       Navigator.pushReplacement(
+          //         context,
+          //         MaterialPageRoute(
+          //           builder: (_) => Auth(),
+          //         ),
+          //       );
+          //     },
+          //     child: Text(
+          //       "Skip",
+          //       style: TextStyle(
+          //         fontSize: 19,
+          //         color: Color(0xFF407BFF),
+          //         fontWeight: FontWeight.bold,
+          //         fontFamily: "MontSerrat",
+          //       ),
+          //     ),
+          //   ),
+          // ),
           SizedBox(height: 20),
           Expanded(
             child: PageView.builder(

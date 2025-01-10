@@ -50,7 +50,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notifications" , style: TextStyle(color: Colors.black),),
+        title: const Text("Notifications" , style: TextStyle(color: Colors.black , fontWeight: FontWeight.bold),),
         centerTitle: false,
         backgroundColor: Colors.white,
         leading: IconButton(onPressed: (){Navigator.pop(context);}, icon: Icon(Icons.arrow_back , color: Colors.black,)),

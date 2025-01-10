@@ -163,7 +163,7 @@ class _RecentsPageState extends State<RecentsPage> {
         onTap: () async {
           // log("${temp.Type} ${temp.URL}");
           if(temp.Type == "material" || temp.Type == "papers"){
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL)));
+            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL, title: temp.Title,)));
           }
         },
         child: Card(

@@ -423,7 +423,7 @@ class _HomePageState extends State<HomePage> {
       child: InkWell(
         onTap: () async {
           if(temp.Type == "material" || temp.Type == "papers"){
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL)));
+            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL, title: temp.Title,)));
           }
         },
         child: Card(

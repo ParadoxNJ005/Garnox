@@ -168,7 +168,7 @@ class _SearchPageState extends State<SearchPage> {
           LOCALs.recents(temp.Title,temp.URL,temp.Type);
           // log("${temp.Type}");
           if (temp.Type == "material" || temp.Type == "papers") {
-            Navigator.push(context, MaterialPageRoute(builder: (_) => OpenPdf(link: temp.URL)));
+            Navigator.push(context, MaterialPageRoute(builder: (_) => OpenPdf(link: temp.URL, title: temp.Title,)));
           } else {
             try {
               LOCALs.launchURL(temp.URL);

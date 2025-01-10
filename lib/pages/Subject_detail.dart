@@ -172,7 +172,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
       onTap: () async{
           LOCALs.recents(title,link,type);
           if(type == "material" || type == "papers"){
-            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: link)));
+            Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: link, title: title,)));
           }else{
             try{
               LOCALs.launchURL(link);
