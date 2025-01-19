@@ -401,7 +401,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                         ),
                       ),
                       Container(
-                        height: 45,
+                        // height:50,
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: ElevatedButton(
@@ -476,6 +476,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                               height: 40,
                             ),
                           ),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ],

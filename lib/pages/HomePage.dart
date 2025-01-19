@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _handleRefresh() async {
+  Future<void> _handleRefresh()async{
     await Future.delayed(Duration(seconds: 1));
     await APIs.fetchAllSubjects();
     await APIs.fetchSemSubjectName();

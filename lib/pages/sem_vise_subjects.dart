@@ -34,6 +34,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
   @override
   void initState(){
     super.initState();
+
     refreshKey = GlobalKey<RefreshIndicatorState>();
   }
 
@@ -127,9 +128,18 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                     ),
                   ),
                   SizedBox(height: 16),
-                  Expanded(
-                      child: _subCardList(APIs.semSubjectName?.ece ?? [])
-                  ),
+                  if(APIs.me!.branch == "ECE")
+                    Expanded(
+                        child: _subCardList(APIs.semSubjectName?.ece ?? [])
+                    ),
+                  if(APIs.me!.branch == "IT")
+                    Expanded(
+                        child: _subCardList(APIs.semSubjectName?.it ?? [])
+                    ),
+                  if(APIs.me!.branch == "ITBI")
+                    Expanded(
+                        child: _subCardList(APIs.semSubjectName?.itBi ?? [])
+                    ),
                 ],
               ),
             ),
@@ -210,6 +220,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
               var temp = await storage.read(key: "$department");
               if (temp != null) {
                 Map<String, dynamic> tempJson = json.decode(temp);
+                print("Decoded JSON data: $tempJson");
                 SpecificSubject specificSubject = SpecificSubject.fromJson(tempJson);
 
                 Navigator.push(
