@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../models/SemViseSubModel.dart';
@@ -26,7 +25,6 @@ class LOCALs{
         String? updatedStringOfItems = await local_storage.read(key: 'recents');
         List<dynamic> updatedListOfItems = jsonDecode(updatedStringOfItems!);
 
-        log("$updatedListOfItems");
       } else {
         List<Map<String, String>> listOfItems = [];
 
@@ -38,7 +36,6 @@ class LOCALs{
         String? updatedStringOfItems = await local_storage.read(key: 'recents');
         List<dynamic> updatedListOfItems = jsonDecode(updatedStringOfItems!);
 
-        log("$updatedListOfItems");
       }
 
       await LOCALs.fetchRecents();
@@ -73,7 +70,6 @@ class LOCALs{
           throw 'Could not launch $url';
         }
       } catch (e) {
-        log('Error launching URL: $e');
         throw 'Could not launch $url';
       }
     }
@@ -116,12 +112,9 @@ class LOCALs{
 
               finalSearchSubjectList = finalSearchSubjectList.toSet().toList();
 
-              // log('Final Search Subject List: $finalSearchSubjectList');
             } else {
-              log('Error: Decoded JSON is not a map');
             }
           } else {
-            log('Error: Updated String of Items is null');
           }
         }
 
@@ -129,7 +122,6 @@ class LOCALs{
         for (var i = 0; i < finalSearchSubjectList.length; i++) {
           String sub = finalSearchSubjectList[i];
           String? updatedStringOfItems2 = await local_storage.read(key: sub);
-          // log("update sub : ${sub} => ${updatedStringOfItems2}");
           if (updatedStringOfItems2 != null) {
             var decodedJson2 = jsonDecode(updatedStringOfItems2);
             if (decodedJson2 is Map<String, dynamic>) {
@@ -173,19 +165,13 @@ class LOCALs{
 
               finalSeachDataList = finalSeachDataList.toSet().toList();
 
-              // log('Final Search DATA List: $finalSeachDataList');
             } else {
-              log('Error: Decoded JSON is not a map');
             }
           } else {
-            log('Error: Updated String of Items is null');
           }
         }
       } catch (e) {
-        log('Error in Making Search Functionality: $e');
         throw 'me toh tut gya, barbaad ho gya';
       }
     }
-
-
 }

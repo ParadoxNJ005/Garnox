@@ -25,7 +25,6 @@ class SubjectDetail extends StatefulWidget {
 
 class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProviderStateMixin {
   bool _isSearching = false;
-  String _searchText = '';
   late GlobalKey<RefreshIndicatorState> refreshKey;
 
   @override
@@ -207,13 +206,11 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
               constraints: BoxConstraints(maxWidth: 40), // Ensure the trailing icon is properly sized
               child: PopupMenuButton<String>(
                 onSelected: (value) async {
-                  log("Popup menu item selected: $value");
                   switch (value) {
                     case 'share':
                       Share.share("Here is the Url of ${title} \n ${link}");
                       break;
                     case 'download':
-                      log("Download selected");
                       Clipboard.setData(ClipboardData(text: link));
                       Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
                       await _showDownloadInstructions(link);
@@ -221,7 +218,6 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  log("Building popup menu items");
                   return [
                     PopupMenuItem(
                       value: 'share',
@@ -240,7 +236,6 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                   ];
                 },
                 onCanceled: () {
-                  log("Popup menu canceled");
                 },
               ),
             ),

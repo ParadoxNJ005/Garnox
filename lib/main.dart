@@ -22,14 +22,12 @@ Future<void> main() async {
         projectId: "sembreaker-49515",
       ),
     );
-    print('[FIREBASE] Firebase initialized successfully');
 
     // Introduce a delay before calling set()
     // await Future.delayed(Duration(milliseconds: 500)); // Adjust delay as needed
     //set(); // Assuming 'set()' is defined elsewhere
      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   } catch (e) {
-    print('Error initializing Firebase:$e');
   }
 
   // Request notification permission and initialize notifications if granted
@@ -38,14 +36,11 @@ Future<void> main() async {
   if (permissionGranted) {
     // If permission granted, subscribe to topic and initialize notifications
     FirebaseMessaging.instance.subscribeToTopic('all').then((_) {
-      print('Subscribed to "all" topic');
     }).catchError((error) {
-      print('Failed to subscribe to topic: $error');
     });
 
     await FirebaseApi().initNotifications();
   } else {
-    print('Notifications will not be initialized as permission is denied.');
   }
   runApp(MyApp());
 }
@@ -63,13 +58,10 @@ Future<bool> requestNotificationPermission() async {
   );
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-    print('User granted permission');
     return true; // Permission granted
   } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
-    print('User granted provisional permission');
     return true; // Provisional permission granted, still allow notifications
   } else {
-    print('User declined or has not accepted permission');
     return false; // Permission denied
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -37,13 +36,10 @@ class _AuthState extends State<Auth> {
       Navigator.pop(context);
 
       if (user != null) {
-        log('\nUser: ${user.user}');
-        log('\nUser Additional Info: ${user.additionalUserInfo}');
 
         final email = user.user?.email;
         if (email != null) {
           if ((await APIs.userExists())) {
-            log("User exists, navigating to HomePage");
             Navigator.pushReplacement(
                 context, MaterialPageRoute(builder: (_) => const HomePage()));
           } else {
@@ -53,7 +49,6 @@ class _AuthState extends State<Auth> {
             });
           }
         } else {
-          log("Invalid email domain");
           Dialogs.showSnackbar(context, "⚠️ Login Via Valid College Id!!");
           await FirebaseAuth.instance.signOut();
           await GoogleSignIn().signOut();
@@ -78,7 +73,6 @@ class _AuthState extends State<Auth> {
 
       return await APIs.auth.signInWithCredential(credential);
     } catch (e) {
-      log('\n_signInWithGoogle: $e');
       Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
       return null;
     }

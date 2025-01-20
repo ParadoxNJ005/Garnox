@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import '../utils/landing_info.dart';
 import 'AuthPage.dart';
 
 class Landingpage extends StatefulWidget {
+  const Landingpage({super.key});
+
   @override
   State<Landingpage> createState() => _LandingpageState();
 }
@@ -36,28 +36,6 @@ class _LandingpageState extends State<Landingpage> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          // Padding(
-          //   padding: const EdgeInsets.only(left: 285),
-          //   child: TextButton(
-          //     onPressed: () {
-          //       Navigator.pushReplacement(
-          //         context,
-          //         MaterialPageRoute(
-          //           builder: (_) => Auth(),
-          //         ),
-          //       );
-          //     },
-          //     child: Text(
-          //       "Skip",
-          //       style: TextStyle(
-          //         fontSize: 19,
-          //         color: Color(0xFF407BFF),
-          //         fontWeight: FontWeight.bold,
-          //         fontFamily: "MontSerrat",
-          //       ),
-          //     ),
-          //   ),
-          // ),
           SizedBox(height: 20),
           Expanded(
             child: PageView.builder(

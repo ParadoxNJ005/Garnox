@@ -11,7 +11,6 @@ class NoContentAnimatedText extends StatelessWidget {
     return Center(
       child: AnimatedTextKit(
         onTap: () {
-          // print("Tap Event");
         },
         animatedTexts: [
           TyperAnimatedText(

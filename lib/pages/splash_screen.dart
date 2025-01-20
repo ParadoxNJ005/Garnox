@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -29,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _navigateToNextScreen() async {
     final storage = new FlutterSecureStorage();
     final temp = await storage.read(key: "me");
-    log("${temp}");
 
     if (temp != null) {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>HomePage()));

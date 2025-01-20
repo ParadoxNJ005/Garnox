@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,7 +12,6 @@ import '../database/Locals.dart';
 import '../models/recentsModel.dart';
 import '../utils/contstants.dart';
 import 'package:share_plus/share_plus.dart';
-
 import 'NotificationPage.dart';
 import 'OpenPdf.dart';
 
@@ -34,19 +32,6 @@ class _RecentsPageState extends State<RecentsPage> {
     super.initState();
     // _requestPermissions();
   }
-
-  // Future<void> _requestPermissions() async {
-  //   var status = await Permission.storage.status;
-  //   if (!status.isGranted) {
-  //     if (await Permission.storage.request().isGranted) {
-  //       log("Storage permission granted");
-  //     } else {
-  //       log("Storage permission denied");
-  //     }
-  //   } else {
-  //     log("Storage permission already granted");
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -106,12 +91,6 @@ class _RecentsPageState extends State<RecentsPage> {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  // onChanged: (text) {
-                  //   setState(() {
-                  //     _isSearching = text.isNotEmpty;
-                  //   });
-                  //   // Implement search logic here
-                  // },
                 ),
               ),
             ),
@@ -161,7 +140,6 @@ class _RecentsPageState extends State<RecentsPage> {
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
         onTap: () async {
-          // log("${temp.Type} ${temp.URL}");
           if(temp.Type == "material" || temp.Type == "papers"){
             Navigator.push(context, MaterialPageRoute(builder: (_)=>OpenPdf(link: temp.URL, title: temp.Title,)));
           }
@@ -173,7 +151,6 @@ class _RecentsPageState extends State<RecentsPage> {
                 "assets/svgIcons/file.svg",
               ),
               onPressed: () {
-                log("File icon pressed");
                 // Handle file icon pressed action
               },
             ),
@@ -190,16 +167,11 @@ class _RecentsPageState extends State<RecentsPage> {
               constraints: BoxConstraints(maxWidth: 40), // Ensure the trailing icon is properly sized
               child: PopupMenuButton<String>(
                 onSelected: (value) async {
-                  log("Popup menu item selected: $value");
                   switch (value) {
                     case 'share':
-                      // log("Copying link to clipboard");
                       Share.share("Here is the Url of ${temp.Title} \n ${temp.URL}");
-                      // Clipboard.setData(ClipboardData(text: temp.URL));
-                      // Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
                       break;
                     case 'download':
-                      // log("Download selected");
                       Clipboard.setData(ClipboardData(text: temp.URL));
                       Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
                       await _showDownloadInstructions(temp.URL);
@@ -207,7 +179,6 @@ class _RecentsPageState extends State<RecentsPage> {
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  log("Building popup menu items");
                   return [
                     PopupMenuItem(
                       value: 'share',
@@ -226,7 +197,6 @@ class _RecentsPageState extends State<RecentsPage> {
                   ];
                 },
                 onCanceled: () {
-                  log("Popup menu canceled");
                 },
               ),
             ),
@@ -271,12 +241,10 @@ class _RecentsPageState extends State<RecentsPage> {
   Future<void> _openInBrowser(String url) async {
     try {
       if (await canLaunch(url)) {
-        await launch(url, forceSafariVC: false, forceWebView: false); // Open in default browser (Chrome)
-        log("URL opened in browser");
+        await launch(url, forceSafariVC: false, forceWebView: false);
       } else {
       }
     } catch (e) {
-      log("Error opening URL: $e");
     }
   }
 }

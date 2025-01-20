@@ -6,11 +6,9 @@ import 'package:share_plus/share_plus.dart';
 import '../database/Apis.dart';
 import '../pages/AuthPage.dart';
 import '../pages/NotificationPage.dart';
-import '../pages/ProfilePage.dart';
 import '../pages/developerPage.dart';
 import '../pages/sem_vise_subjects.dart';
 import '../utils/contstants.dart';
-import 'custom_helpr.dart';
 
 class CustomNavDrawer extends StatefulWidget {
   const CustomNavDrawer({super.key});
@@ -76,16 +74,9 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             ),
             _list(Icons.calendar_today_rounded, "Subjects", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>SemViseSubjects()));}),
             _list(Icons.notifications_active, "Notifications", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));}),
-            //_list(Icons.location_on_outlined, "Address", (){Dialogs.showSnackbar(context, "😞 Currently we do not have Address functionality");}),
             _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfile()));}),
-            // _list(Icons.payment, "Plan Your Day", (){
-            //      Navigator.push(context, MaterialPageRoute(builder: (_)=>Classes()));
-            // }),
             _list(Icons.local_offer_outlined, "About", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
             _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
-            // _list(Icons.support_agent_outlined, "Support", () async{
-            //   Dialogs.showSnackbar(context, "😞 Currently we do not have Support functionality");
-            // }),
             _list(Icons.logout_outlined, "Sign out", ()async{ await APIs.Signout(); Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>Auth()), (route) => false,);}),
             Spacer(),
             Text(

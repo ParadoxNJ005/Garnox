@@ -8,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import '../components/Custom_navDrawer.dart';
 import '../components/custom_helpr.dart';
 import '../database/Apis.dart';
-import '../models/SemViseSubModel.dart';
 import '../models/SpecificSubjectModel.dart';
 import '../utils/contstants.dart';
 import 'NotificationPage.dart';
@@ -24,9 +23,6 @@ class SemViseSubjects extends StatefulWidget{
 
 class _SemViseSubjectsState extends State<SemViseSubjects>{
   bool _isSearching = false;
-  String _searchText = "";
-  final List<SemViseSubject> _searchList = [];
-  List<SemViseSubject> _list = [];
   final storage = new FlutterSecureStorage();
   late GlobalKey<RefreshIndicatorState> refreshKey;
   Random random = Random();
@@ -202,7 +198,6 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
       department = parts[1]; // "ECE"
       check = (number == APIs.me!.semester.toString());
     } else {
-      print("Invalid format");
     }
     if(check){
       return Padding(padding: EdgeInsets.symmetric(horizontal: 20),
@@ -212,7 +207,6 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
               var temp = await storage.read(key: "$department");
               if (temp != null) {
                 Map<String, dynamic> tempJson = json.decode(temp);
-                print("Decoded JSON data: $tempJson");
                 SpecificSubject specificSubject = SpecificSubject.fromJson(tempJson);
 
                 Navigator.push(

@@ -331,7 +331,6 @@ class _HomePageState extends State<HomePage> {
       department = parts[1];
       check = (number == APIs.me!.semester.toString());
     } else {
-      print("Invalid format");
     }
 
     if (check) {

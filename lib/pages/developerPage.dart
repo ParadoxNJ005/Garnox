@@ -234,7 +234,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
         if (await launch(url)) {
           await canLaunch(url);
         } else {
-          debugPrint("Could not launch $url");
         }
       },
       child: Container(
@@ -434,7 +433,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                             if (await launch(url)) {
                               await canLaunch(url);
                             } else {
-                              debugPrint("Could not launch $url");
                             }
                           },
                           style: ButtonStyle(
@@ -481,7 +479,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                         if (await launch("https://www.instagram.com/geekhaven_iiita/?hl=en")) {
                           await canLaunch("https://www.instagram.com/geekhaven_iiita/?hl=en");
                         } else {
-                          debugPrint("Could not launch instagram");
                         }
                       },
                       child: Image.asset(
@@ -497,7 +494,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                         if (await launch("https://discord.com/channels/885149696249708635/885151791329722448")) {
                           await canLaunch("https://discord.com/channels/885149696249708635/885151791329722448");
                         } else {
-                          debugPrint("Could not launch discord");
                         }
                       },
                       child: Image.asset(
@@ -513,7 +509,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                         if (await launch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all")) {
                           await canLaunch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all");
                         } else {
-                          debugPrint("Could not launch linkedin");
                         }
                       },
                       child: Image.asset(

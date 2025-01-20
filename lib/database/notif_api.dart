@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sembreaker/pages/HomePage.dart';
-
 import '../main.dart';
-import '../pages/NotificationPage.dart';
 
 class FirebaseApi {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -25,7 +23,6 @@ class FirebaseApi {
     await _firebaseMessaging.requestPermission();
 
     String? fCMToken = await _firebaseMessaging.getToken();
-    print("FCM Token: $fCMToken\n\n\n\n\n");
     initPushNotifications();
     initLocalNotifications();
 
@@ -115,8 +112,5 @@ class FirebaseApi {
 
   // Background message handler
   static Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-    print('Title: ${message.notification?.title}');
-    print('Body: ${message.notification?.body}');
-    print('Payload: ${message.data}');
   }
 }

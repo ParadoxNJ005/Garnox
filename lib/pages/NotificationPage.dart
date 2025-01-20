@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:sembreaker/utils/contstants.dart';
 import '../database/Apis.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -40,8 +38,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   // Function to format the time from IST
   String _formatTime(String timeString) {
-    DateTime dateTime = DateTime.parse(timeString); // Assuming the time is in ISO8601 format (UTC)
-    // Convert to Indian Standard Time (IST)
+    DateTime dateTime = DateTime.parse(timeString);
     DateTime istTime = dateTime.add(Duration(hours: 5, minutes: 30));
     return timeago.format(istTime); // Show time like "3 hours ago"
   }

@@ -166,7 +166,6 @@ class _SearchPageState extends State<SearchPage> {
       child: InkWell(
         onTap: () {
           LOCALs.recents(temp.Title,temp.URL,temp.Type);
-          // log("${temp.Type}");
           if (temp.Type == "material" || temp.Type == "papers") {
             Navigator.push(context, MaterialPageRoute(builder: (_) => OpenPdf(link: temp.URL, title: temp.Title,)));
           } else {
@@ -199,13 +198,11 @@ class _SearchPageState extends State<SearchPage> {
               constraints: BoxConstraints(maxWidth: 40), // Ensure the trailing icon is properly sized
               child: PopupMenuButton<String>(
                 onSelected: (value) async {
-                  log("Popup menu item selected: $value");
                   switch (value) {
                     case 'share':
                       Share.share("Here is the Url of ${temp.Title} \n ${temp.URL}");
                       break;
                     case 'download':
-                      log("Download selected");
                       Clipboard.setData(ClipboardData(text: temp.URL));
                       Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
                       await _showDownloadInstructions(temp.URL);
@@ -213,7 +210,6 @@ class _SearchPageState extends State<SearchPage> {
                   }
                 },
                 itemBuilder: (BuildContext context) {
-                  log("Building popup menu items");
                   return [
                     PopupMenuItem(
                       value: 'share',
@@ -232,7 +228,6 @@ class _SearchPageState extends State<SearchPage> {
                   ];
                 },
                 onCanceled: () {
-                  log("Popup menu canceled");
                 },
               ),
             ),
