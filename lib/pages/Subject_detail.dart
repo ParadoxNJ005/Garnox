@@ -132,6 +132,7 @@ class _SubjectDetailState extends State<SubjectDetail> with SingleTickerProvider
                       ],
                     ),
                   ),
+                  SizedBox(height: 20,)
                 ],
               ),
             ),
