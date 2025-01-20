@@ -85,7 +85,7 @@ class LOCALs{
         List<String> finalSearchSubjectList = [];
 
         // For 2026 batch   UPDATE THIS FOR LOOP WHEN YOU ADD OTHER BATCH DETAILS
-        for (var i = 2026; i <= 2026; i++) {
+        for (var i = 2025; i <= 2028; i++) {
           String yearName = i.toString();
           String? updatedStringOfItems = await local_storage.read(key: yearName);
           if (updatedStringOfItems != null) {
@@ -129,7 +129,7 @@ class LOCALs{
         for (var i = 0; i < finalSearchSubjectList.length; i++) {
           String sub = finalSearchSubjectList[i];
           String? updatedStringOfItems2 = await local_storage.read(key: sub);
-          // log("update sub : ${sub} => ${updatedStringOfItems2}");
+          // log("update sub : $sub => $updatedStringOfItems2");
           if (updatedStringOfItems2 != null) {
             var decodedJson2 = jsonDecode(updatedStringOfItems2);
             if (decodedJson2 is Map<String, dynamic>) {

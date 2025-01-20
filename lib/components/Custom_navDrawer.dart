@@ -62,6 +62,8 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    maxLines: 2, // Limit to 2 lines
+                    overflow: TextOverflow.ellipsis, // Adds ellipsis (...) if text overflows
                   ),
                   subtitle: Text(
                     APIs.me!.email!,

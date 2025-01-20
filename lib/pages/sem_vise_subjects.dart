@@ -138,6 +138,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                       _subCardList(APIs.semSubjectName?.it ?? []),
                     if (APIs.me!.branch == "ITBI")
                       _subCardList(APIs.semSubjectName?.itBi ?? []),
+                    const SizedBox(height: 20,)
                   ],
                 ),
               ),

@@ -26,7 +26,7 @@ class _SearchPageState extends State<SearchPage> {
   String _searchText = "";
   final List<Recents> _searchList = [];
   late List<Recents> _findFromSearchList = [];
-  final storage = FlutterSecureStorage();
+  final storage = const FlutterSecureStorage();
   late GlobalKey<RefreshIndicatorState> refreshKey;
 
   @override
@@ -150,6 +150,7 @@ class _SearchPageState extends State<SearchPage> {
                         },
                       ),
                   ),
+                  const SizedBox(height: 20,)
                 ],
               ),
             ),
@@ -159,8 +160,7 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Widget _fileCard(Recents temp) {
-
+  Widget _fileCard(Recents temp){
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 0),
       child: InkWell(
@@ -194,7 +194,6 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               ),
             ),
-            subtitle: Text("12 Files"),
             trailing: Container(
               constraints: BoxConstraints(maxWidth: 40), // Ensure the trailing icon is properly sized
               child: PopupMenuButton<String>(

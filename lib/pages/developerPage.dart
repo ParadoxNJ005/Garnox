@@ -387,7 +387,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: MediaQuery.sizeOf(context).height*.5,
+                  height: MediaQuery.sizeOf(context).height*.55,
                   decoration: BoxDecoration(
                     color: Constants.BLACK,
                     borderRadius: BorderRadius.circular(15),
