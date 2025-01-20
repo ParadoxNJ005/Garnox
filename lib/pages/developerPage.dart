@@ -387,7 +387,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                 child: Container(
                   width: double.infinity,
                   margin: const EdgeInsets.symmetric(horizontal: 20),
-                  height: MediaQuery.sizeOf(context).height*.55,
+                  height: MediaQuery.sizeOf(context).height*.5,
                   decoration: BoxDecoration(
                     color: Constants.BLACK,
                     borderRadius: BorderRadius.circular(15),
@@ -451,64 +451,6 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: double.infinity,
-                        height: MediaQuery.sizeOf(context).height*0.05,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  if (await launch("https://www.instagram.com/geekhaven_iiita/?hl=en")) {
-                                    await canLaunch("https://www.instagram.com/geekhaven_iiita/?hl=en");
-                                  } else {
-                                    debugPrint("Could not launch instagram");
-                                  }
-                              },
-                              child: Image.asset(
-                                'assets/svgIcons/instagram.png',
-                                color: Constants.WHITE,
-                                width: 40,
-                                height: 40,
-                              ),
-                            ),
-                            const SizedBox(width: 40,),
-                            GestureDetector(
-                              onTap: () async {
-                                if (await launch("https://discord.com/channels/885149696249708635/885151791329722448")) {
-                                  await canLaunch("https://discord.com/channels/885149696249708635/885151791329722448");
-                                } else {
-                                  debugPrint("Could not launch discord");
-                                }
-                              },
-                              child: Image.asset(
-                                'assets/svgIcons/discord.png',
-                                color: Constants.WHITE,
-                                width: 40,
-                                height: 40,
-                              ),
-                            ),
-                            const SizedBox(width: 40,),
-                            GestureDetector(
-                              onTap: () async {
-                                if (await launch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all")) {
-                                  await canLaunch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all");
-                                } else {
-                                  debugPrint("Could not launch linkedin");
-                                }
-                              },
-                              child: Image.asset(
-                                'assets/svgIcons/linkedin.png',
-                                color: Constants.WHITE,
-                                width: 40,
-                                height: 40,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -527,6 +469,64 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                   ),
                 ),
               ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                height: MediaQuery.sizeOf(context).height*0.05,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        if (await launch("https://www.instagram.com/geekhaven_iiita/?hl=en")) {
+                          await canLaunch("https://www.instagram.com/geekhaven_iiita/?hl=en");
+                        } else {
+                          debugPrint("Could not launch instagram");
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/svgIcons/instagram.png',
+                        color: Constants.BLACK,
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                    const SizedBox(width: 40,),
+                    GestureDetector(
+                      onTap: () async {
+                        if (await launch("https://discord.com/channels/885149696249708635/885151791329722448")) {
+                          await canLaunch("https://discord.com/channels/885149696249708635/885151791329722448");
+                        } else {
+                          debugPrint("Could not launch discord");
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/svgIcons/discord.png',
+                        color: Constants.BLACK,
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                    const SizedBox(width: 40,),
+                    GestureDetector(
+                      onTap: () async {
+                        if (await launch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all")) {
+                          await canLaunch("https://www.linkedin.com/company/geekhaven-iiita/posts/?feedView=all");
+                        } else {
+                          debugPrint("Could not launch linkedin");
+                        }
+                      },
+                      child: Image.asset(
+                        'assets/svgIcons/linkedin.png',
+                        color: Constants.BLACK,
+                        width: 40,
+                        height: 40,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
               const SizedBox(height: 20),
             ],
           ),
