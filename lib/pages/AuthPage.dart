@@ -83,7 +83,6 @@ class _AuthState extends State<Auth> {
       return null;
     }
   }
-
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
@@ -91,58 +90,61 @@ class _AuthState extends State<Auth> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween, // Ensures spacing between elements
         children: [
-            SizedBox(height: 50,),
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10,vertical: 30),
-              width: double.infinity,
-              height: 500,
-              child: Center(
-                child: Column(
-                  children: [
-                    Lottie.asset('assets/animation/aa.json', fit: BoxFit.cover),
-                  ],
-                ),
+          const SizedBox(height: 50),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
+            width: double.infinity,
+            height: 500,
+            child: Center(
+              child: Column(
+                children: [
+                  Lottie.asset('assets/animation/aa.json', fit: BoxFit.cover),
+                ],
               ),
             ),
-            SizedBox(height: 40,),
-            Container(
-              width: double.infinity,
-              height: 60,
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton.icon(
-
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 223, 255, 187),
-                    shape: const StadiumBorder(),
-                    elevation: 1,
+          ),
+          Container(
+            width: double.infinity,
+            height: 60,
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(255, 223, 255, 187),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Border radius of 10
+                ),
+                elevation: 1,
+              ),
+              onPressed: () {
+                _handleGoogleBtnClick();
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/images/google_logo.png',
+                    height: mq.height * .035,
                   ),
-
-                  // on tap
-                  onPressed: () {
-                    _handleGoogleBtnClick();
-                  },
-
-                  //google icon
-                  icon: Image.asset('assets/images/google_logo.png',
-                    height: mq.height * .03,
-                  ),
-
-              //login with google label
-              label: RichText(
-                  text: const TextSpan(
-                  style: TextStyle(color: Colors.black, fontSize: 16),
-                  children: [
-                    TextSpan(text: 'Login with '),
-                    TextSpan(
-                    text: 'Google',
-                    style: TextStyle(fontWeight: FontWeight.w500)
+                  const SizedBox(width: 26), // Space between icon and text
+                  RichText(
+                    text: const TextSpan(
+                      style: TextStyle(color: Colors.black, fontSize: 16),
+                      children: [
+                        TextSpan(text: 'Login with '),
+                        TextSpan(
+                          text: 'Google',
+                          style: TextStyle(fontSize: 18,fontWeight: FontWeight.w500),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-               ),
+                  ),
+                ],
               ),
             ),
+          ),
+          SizedBox(height: 20),//ads padding at the bottom
         ],
       ),
     );
