@@ -46,7 +46,7 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
 
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return RefreshIndicator(
       key: refreshKey,
       onRefresh: _handleRefresh,
@@ -82,13 +82,14 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                 color: Constants.BLACK,
               ),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));
+                Navigator.push(
+                    context, MaterialPageRoute(builder: (_) => NotificationScreen()));
               },
             ),
           ],
         ),
         drawer: CustomNavDrawer(),
-        body:GestureDetector(
+        body: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: WillPopScope(
             onWillPop: () {
@@ -101,46 +102,44 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
                 return Future.value(true);
               }
             },
-            child: Padding(
-              padding: const EdgeInsets.only(top: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: ListTile(
-                      leading: Icon(Icons.search),
-                      title: Text("Search Subject..."),
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=>SearchPage()));
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 16), // Space between search bar and heading
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "Semester ${APIs.me!.semester}",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: ListTile(
+                        leading: Icon(Icons.search),
+                        title: Text("Search Subject..."),
+                        onTap: () {
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (_) => SearchPage()));
+                        },
                       ),
                     ),
-                  ),
-                  SizedBox(height: 16),
-                  if(APIs.me!.branch == "ECE")
-                    Expanded(
-                        child: _subCardList(APIs.semSubjectName?.ece ?? [])
+                    SizedBox(height: 16), // Space between search bar and heading
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Semester ${APIs.me!.semester}",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  if(APIs.me!.branch == "IT")
-                    Expanded(
-                        child: _subCardList(APIs.semSubjectName?.it ?? [])
-                    ),
-                  if(APIs.me!.branch == "ITBI")
-                    Expanded(
-                        child: _subCardList(APIs.semSubjectName?.itBi ?? [])
-                    ),
-                ],
+                    SizedBox(height: 16),
+                    if (APIs.me!.branch == "ECE")
+                      _subCardList(APIs.semSubjectName?.ece ?? []),
+                    if (APIs.me!.branch == "IT")
+                      _subCardList(APIs.semSubjectName?.it ?? []),
+                    if (APIs.me!.branch == "ITBI")
+                      _subCardList(APIs.semSubjectName?.itBi ?? []),
+                  ],
+                ),
               ),
             ),
           ),
@@ -160,44 +159,37 @@ class _SemViseSubjectsState extends State<SemViseSubjects>{
     });
 
     if (eceList.isEmpty || !isAnyTrue) {
-      return Expanded(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.only(top: 100, left: 50, right: 50),
-            width: double.infinity,
-            height: 600,
-            child: Center(
-              child: Column(
-                children: [
-                  Lottie.asset('assets/animation/nodatafound.json'),
-                  SizedBox(height: 20),
-                  Container(
-                    width: double.infinity,
-                    child: Center(
-                      child: Text(
-                        "✏️ NO DATA FOUND!!",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+      return Center(
+        child: Container(
+          padding: EdgeInsets.only(top: 100, left: 50, right: 50),
+          child: Column(
+            children: [
+              Lottie.asset('assets/animation/nodatafound.json'),
+              SizedBox(height: 20),
+              Text(
+                "✏️ NO DATA FOUND!!",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-            ),
+            ],
           ),
         ),
       );
     } else {
-      return Column(
-        children: eceList.map((subName) {
-          return _subCard(subName);
-        }).toList(),
+      return ListView.builder(
+        shrinkWrap: true,
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: eceList.length,
+        itemBuilder: (context, index) {
+          return _subCard(eceList[index]);
+        },
       );
     }
   }
+
 
   Widget _subCard(String subName) {
     List<String> parts = subName.split('_');

@@ -38,9 +38,15 @@ class APIs {
           var jsonData = doc.data();
           var subject = SpecificSubject.fromJson(jsonData);
           var encodedSubject = jsonEncode(subject.toJson());
-
+          // print("Subject Code: ${subject.subjectCode}");
           await storage.write(key: subject.subjectCode, value: encodedSubject);
-          // log("${subject.subjectCode} : ${encodedSubject}");
+
+          // if(subject.subjectCode == "WD")
+          // {
+          //   print("Subject Code: ${subject.subjectCode}");
+          //   print("JSON Data: ${encodedSubject}");
+          //   print("-------------------");
+          // }
         } catch (e) {
           print('Error writing to secure storage: $e');
         }}
