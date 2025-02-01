@@ -82,7 +82,7 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             _list(Icons.logout_outlined, "Sign out", ()async{ await APIs.Signout(); Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>Auth()), (route) => false,);}),
             Spacer(),
             Text(
-              'Made with ❤️ By Geek Haven',
+              'Made with ❤️ By GeekHaven',
               // "",
               style: GoogleFonts.epilogue(
                 textStyle: TextStyle(

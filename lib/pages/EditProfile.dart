@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,6 +21,8 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
+  Timer? _connectivityTimer;
+  bool _isDialogShown = false;
   final emailController = TextEditingController();
   final semesterController = TextEditingController();
   final nameController = TextEditingController();
@@ -53,6 +57,112 @@ class _EditProfileState extends State<EditProfile> {
     7,
     8,
   ];
+
+  Future<bool> _hasInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com')
+          .timeout(const Duration(seconds: 3));
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  Future<void> _showNoInternetDialog() async {
+    if (!_isDialogShown && mounted) {
+      _isDialogShown = true;
+      await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: const Text(
+                'No Internet Connection',
+                style: TextStyle(color: Constants.DARK_SKYBLUE),
+              ),
+              content: const Text('Please enable your internet connection to continue.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    _isDialogShown = false;
+                    Navigator.of(context, rootNavigator: true).pop();
+                  },
+                  child: const Text('Retry', style: TextStyle(color: Constants.SKYBLUE)),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+  }
+
+  Future<void> _updateProfile() async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => const Center(
+        child: CircularProgressIndicator(color: Colors.blue),
+      ),
+    );
+
+    try {
+      while (!await _hasInternetConnection()) {
+        await _showNoInternetDialog();
+        await Future.delayed(const Duration(seconds: 3));
+      }
+
+      await storage.delete(key: "${APIs.me!.batch!}");
+
+      while (!await _hasInternetConnection()) {
+        await _showNoInternetDialog();
+        await Future.delayed(const Duration(seconds: 3));
+      }
+
+      await APIs.updateCollegeDetails(_yearToBatch(Year), Branch, Semester);
+
+      while (!await _hasInternetConnection()) {
+        await _showNoInternetDialog();
+        await Future.delayed(const Duration(seconds: 3));
+      }
+
+      await APIs.myInfo();
+
+      while (!await _hasInternetConnection()) {
+        await _showNoInternetDialog();
+        await Future.delayed(const Duration(seconds: 3));
+      }
+
+      await APIs.fetchSemSubjectName();
+
+      if (mounted) Navigator.pop(context);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Profile updated successfully!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } catch (error) {
+      if (mounted) Navigator.pop(context);
+      Dialogs.showSnackbar(context, "⚠️ Oops! Check Your Internet Connection");
+    }
+  }
+
+  int _yearToBatch(String s) {
+    switch (s) {
+      case "2024-2028":
+        return 2028;
+      case "2023-2027":
+        return 2027;
+      case "2022-2026":
+        return 2026;
+      default:
+        return 2025;
+    }
+  }
 
   @override
   void initState() {
@@ -353,44 +463,49 @@ class _EditProfileState extends State<EditProfile> {
                       height: 45,
                       width: 180,
                       child: ElevatedButton(
-                        onPressed: () async {
-                          showDialog(
-                            context: context,
-                            barrierDismissible: false,
-                            builder: (BuildContext context) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.blue, // Set the color to blue
-                                ),
-                              );
-                            },
-                          );
-
-                          try {
-                            // Perform the update operation
-                            await storage.delete(key: "${APIs.me!.batch!}");
-                            await APIs.updateCollegeDetails(hi(Year), Branch, Semester);
-                            await APIs.myInfo();
-                            await APIs.fetchSemSubjectName();
-
-                            // Dismiss the progress indicator
-                            Navigator.pop(context);
-
-                            // Show a success message using Snackbar
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Profile updated successfully!'),
-                                backgroundColor: Colors.green,
-                              ),
-                            );
-
-                          } catch (error) {
-                            // Dismiss the progress indicator
-                            Navigator.pop(context);
-
-                            // Show an error message using Snackbar
-                            Dialogs.showSnackbar(context, "⚠️ Oops! Check Your Internet Connection");
-                          }
+                        onPressed: (){
+                          _updateProfile();
+                          // showDialog(
+                          //   context: context,
+                          //   barrierDismissible: false,
+                          //   builder: (BuildContext context) {
+                          //     return Center(
+                          //       child: CircularProgressIndicator(
+                          //         color: Colors.blue, // Set the color to blue
+                          //       ),
+                          //     );
+                          //   },
+                          // );
+                          //
+                          // try {
+                          //
+                          //   _checkInternetAndNavigate();
+                          //   await storage.delete(key: "${APIs.me!.batch!}");
+                          //   _checkInternetAndNavigate();
+                          //   await APIs.updateCollegeDetails(hi(Year), Branch, Semester);
+                          //   _checkInternetAndNavigate();
+                          //   await APIs.myInfo();
+                          //   _checkInternetAndNavigate();
+                          //   await APIs.fetchSemSubjectName();
+                          //   _checkInternetAndNavigate();
+                          //
+                          //   Navigator.pop(context);
+                          //
+                          //   // Show a success message using Snackbar
+                          //   ScaffoldMessenger.of(context).showSnackBar(
+                          //     SnackBar(
+                          //       content: Text('Profile updated successfully!'),
+                          //       backgroundColor: Colors.green,
+                          //     ),
+                          //   );
+                          //
+                          // } catch (error) {
+                          //   // Dismiss the progress indicator
+                          //   Navigator.pop(context);
+                          //
+                          //   // Show an error message using Snackbar
+                          //   Dialogs.showSnackbar(context, "⚠️ Oops! Check Your Internet Connection");
+                          // }
                         },
 
                         child: Text(

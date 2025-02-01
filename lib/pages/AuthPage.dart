@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sembreaker/utils/contstants.dart';
 import '../components/custom_helpr.dart';
 import '../database/Apis.dart';
 import 'CollegeDetails.dart';
@@ -105,13 +106,13 @@ class _AuthState extends State<Auth> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 223, 255, 187),
+                backgroundColor: Constants.SKYBLUE,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10), // Border radius of 10
                 ),
                 elevation: 1,
               ),
-              onPressed: () {
+              onPressed: (){
                 _handleGoogleBtnClick();
               },
               child: Row(
@@ -138,7 +139,7 @@ class _AuthState extends State<Auth> {
               ),
             ),
           ),
-          SizedBox(height: 20),//ads padding at the bottom
+          const SizedBox(height: 20),//ads padding at the bottom
         ],
       ),
     );

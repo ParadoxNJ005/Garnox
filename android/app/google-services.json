@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "713083156511",
+    "firebase_url": "https://sembreaker-49515-default-rtdb.firebaseio.com",
     "project_id": "sembreaker-49515",
     "storage_bucket": "sembreaker-49515.firebasestorage.app"
   },
@@ -19,6 +20,14 @@
           "android_info": {
             "package_name": "com.example.untitled1",
             "certificate_hash": "0dbd4fb01022dac311ca9c3df11c890a127e75d2"
+          }
+        },
+        {
+          "client_id": "713083156511-51juvqbf2b1os75u1i9bmf71sfls4ceb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.untitled1",
+            "certificate_hash": "b61fb92fdcec3e13d53b2b67e4d112f86f7b0fd4"
           }
         },
         {
@@ -96,6 +105,22 @@
           "android_info": {
             "package_name": "com.garnox.geekhaven",
             "certificate_hash": "0dbd4fb01022dac311ca9c3df11c890a127e75d2"
+          }
+        },
+        {
+          "client_id": "713083156511-tmv00icpk0m1leipfla1djanv2uv37gd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garnox.geekhaven",
+            "certificate_hash": "b61fb92fdcec3e13d53b2b67e4d112f86f7b0fd4"
+          }
+        },
+        {
+          "client_id": "713083156511-ubh4drq2qfmad8ot9953pu1v7ush0a8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.garnox.geekhaven",
+            "certificate_hash": "3a589d444cacc0f716dd9872722ba0018eaaafee"
           }
         },
         {

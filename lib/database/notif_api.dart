@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sembreaker/pages/HomePage.dart';
@@ -80,7 +79,7 @@ class FirebaseApi {
             channelDescription: _androidchannel.description, // Channel description
             importance: Importance.max, // Set importance
             priority: Priority.high,   // Set priority
-            icon: "assets/images/finallogo.png", // Define app icon for notification
+            icon: "@mipmap/ic_launcher", // Define app icon for notification
           ),
         ),
         payload: jsonEncode(message.toMap()),
@@ -92,7 +91,7 @@ class FirebaseApi {
   }
 
   Future<void> initLocalNotifications() async {
-    const android = AndroidInitializationSettings("assets/images/finallogo.png");
+    const android = AndroidInitializationSettings("@mipmap/ic_launcher");
     const settings = InitializationSettings(android: android);
 
     await _localNotifications.initialize(
