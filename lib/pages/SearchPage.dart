@@ -204,7 +204,7 @@ class _SearchPageState extends State<SearchPage> {
                     case 'download':
                       Clipboard.setData(ClipboardData(text: temp.URL));
                       Dialogs.showSnackbar(context, "🔗 Link copied to clipboard!");
-                      await _showDownloadInstructions(temp.URL);
+                      await _openInBrowser(temp.URL);
                       break;
                   }
                 },
@@ -236,42 +236,42 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  Future<void> _showDownloadInstructions(String url) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text('Download Instructions'),
-          content: Text(
-            'To download the PDF, please follow these steps:\n\n'
-                '1. Open the Copied link in your browser:\n'
-                '$url\n\n'
-                '2. Log in with your college account: xxxxxxxxxx@iiita.ac.in\n\n'
-                '3. Once logged in, you will be able to download the file.',
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.0),
-            side: BorderSide(color: Colors.black, width: 2.0),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK'),
-              onPressed: () async {
-                Navigator.of(context).pop();
-                await _openInBrowser(url);
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+  // Future<void> _showDownloadInstructions(String url) async {
+  //   showDialog(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         backgroundColor: Colors.white,
+  //         title: Text('Download Instructions'),
+  //         content: Text(
+  //           'To download the PDF, please follow these steps:\n\n'
+  //               '1. Open the Copied link in your browser:\n'
+  //               '$url\n\n'
+  //               '2. Log in with your college account: xxxxxxxxxx@iiita.ac.in\n\n'
+  //               '3. Once logged in, you will be able to download the file.',
+  //         ),
+  //         shape: RoundedRectangleBorder(
+  //           borderRadius: BorderRadius.circular(16.0),
+  //           side: BorderSide(color: Colors.black, width: 2.0),
+  //         ),
+  //         actions: <Widget>[
+  //           TextButton(
+  //             child: Text('OK'),
+  //             onPressed: () async {
+  //               Navigator.of(context).pop();
+  //               await _openInBrowser(url);
+  //             },
+  //           ),
+  //         ],
+  //       );
+  //     },
+  //   );
+  // }
   Future<void> _openInBrowser(String url) async {
     try {
-      if (await canLaunch(url)) {
-        await launch(url, forceSafariVC: false,
-            forceWebView: false); // Open in default browser (Chrome)
+      if (await launch(url, forceSafariVC: false,
+          forceWebView: false)) {
+        await canLaunch(url); // Open in default browser (Chrome)
         // log("URL opened in browser");
       } else {}
     } catch (e) {
