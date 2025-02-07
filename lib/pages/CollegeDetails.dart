@@ -11,12 +11,7 @@ class CollegeDetails extends StatefulWidget {
   State<CollegeDetails> createState() => _CollegeDetailsState();
 }
 
-class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStateMixin {
-  late AnimationController _controller1;
-  late Animation<Offset> animation1;
-  late AnimationController _controller2;
-  late Animation<Offset> animation2;
-
+class _CollegeDetailsState extends State<CollegeDetails>{
 
   String Branch = 'IT';
 
@@ -54,39 +49,10 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
     //   statusBarColor: Colors.white,
     //   statusBarIconBrightness: Brightness.dark, // Light or dark depending on background color
     // ));
-
-    // Animation 1
-    _controller1 = AnimationController(
-      duration: Duration(milliseconds: 2000),
-      vsync: this,
-    );
-    animation1 = Tween<Offset>(
-      begin: Offset(0.0, -5.0),
-      end: Offset(0.0, 0.0),
-    ).animate(
-      CurvedAnimation(parent: _controller1, curve: Curves.bounceInOut),
-    );
-
-    // Animation 2
-    _controller2 = AnimationController(
-      duration: Duration(milliseconds: 2500),
-      vsync: this,
-    );
-    animation2 = Tween<Offset>(
-      begin: Offset(0.0, 5.0),
-      end: Offset(0.0, 0.0),
-    ).animate(
-      CurvedAnimation(parent: _controller2, curve: Curves.elasticInOut),
-    );
-
-    _controller1.forward();
-    _controller2.forward();
   }
 
   @override
   void dispose() {
-    _controller1.dispose();
-    _controller2.dispose();
     super.dispose();
   }
 
@@ -94,15 +60,14 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.WHITE,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: 70),
-            SlideTransition(
-              position: animation1,
-              child: Padding(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: 70),
+              Padding(
                 padding: EdgeInsets.all(0),
                 child: Center(
                   child: Text(
@@ -117,11 +82,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 35),
-            SlideTransition(
-              position: animation1,
-              child: Padding(
+              SizedBox(height: 35),
+              Padding(
                 padding: EdgeInsets.all(10),
                 child: Container(
                   height: 200,
@@ -132,11 +94,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 55),
-            SlideTransition(
-              position: animation2,
-              child: Container(
+              SizedBox(height: 55),
+              Container(
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -169,11 +128,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 15),
-            SlideTransition(
-              position: animation2,
-              child: Container(
+              SizedBox(height: 15),
+              Container(
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -206,11 +162,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 15),
-            SlideTransition(
-              position: animation2,
-              child: Container(
+              SizedBox(height: 15),
+              Container(
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -243,11 +196,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 55),
-            SlideTransition(
-              position: animation1,
-              child: Container(
+              SizedBox(height: 55),
+              Container(
                 height: 45,
                 width: 180,
                 child: ElevatedButton(
@@ -311,8 +261,8 @@ class _CollegeDetailsState extends State<CollegeDetails> with TickerProviderStat
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

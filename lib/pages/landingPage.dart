@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sembreaker/pages/signup.dart';
 import '../utils/landing_info.dart';
 import 'AuthPage.dart';
 
@@ -107,10 +108,10 @@ class _LandingpageState extends State<Landingpage> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => Auth(),
+                                builder: (_) => const Auth(),
                               ),
                             );
                           },
@@ -132,20 +133,11 @@ class _LandingpageState extends State<Landingpage> {
                       SizedBox(width: 10),
                       Expanded(
                         child: ElevatedButton(
-                          child: Text(
-                            "Sign up",
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFFFFFFFF),
-                              fontWeight: FontWeight.bold,
-                              fontFamily: "MontSerrat",
-                            ),
-                          ),
                           onPressed: () {
-                            Navigator.pushReplacement(
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => Auth(),
+                                builder: (_) => const Signup(),
                               ),
                             );
                           },
@@ -156,6 +148,15 @@ class _LandingpageState extends State<Landingpage> {
                             ),
                             padding: EdgeInsets.symmetric(vertical: 15),
                             elevation: 3,
+                          ),
+                          child: Text(
+                            "Sign up",
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Color(0xFFFFFFFF),
+                              fontWeight: FontWeight.bold,
+                              fontFamily: "MontSerrat",
+                            ),
                           ),
                         ),
                       ),

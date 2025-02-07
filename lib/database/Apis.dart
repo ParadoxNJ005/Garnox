@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,6 +40,81 @@ class APIs {
 
 
     }catch(e){
+    }
+  }
+
+  static Future<UserCredential?> signupWithEmailAndPassword(
+     String name, String email, String password) async {
+    try {
+      UserCredential userCredential =
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      User? user = userCredential.user;
+
+      if (user != null) {
+        DocumentSnapshot userDoc =
+        await firestore.collection('user').doc(user.uid).get();
+
+        ChatUser chatUser;
+        if (!userDoc.exists) {
+          chatUser = ChatUser(
+            uid: user.uid,
+            batch: 2026,
+            branch: "ITBI",
+            college: "IIIT Allahabad",
+            semester: 1,
+            name: name ?? "A",
+            email: user.email ?? email,
+            imageUrl: "",
+          );
+          await firestore.collection('user').doc(user.uid).set(chatUser.toJson());
+          // const storage = FlutterSecureStorage();
+          // await storage.write(key: 'me' ,value: jsonEncode(chatUser.toJson()));
+        }
+      }
+      return userCredential;
+    } catch (e) {
+      return null;
+    }
+  }
+
+//--------------Login User through email and password-----------------------------------------------------//
+  static Future<UserCredential?> loginWithEmailAndPassword(
+      String email, String password) async {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      User? user = userCredential.user;
+      if (user != null) {
+        DocumentSnapshot userDoc =
+        await firestore.collection('user').doc(user.uid).get();
+
+        ChatUser chatUser;
+        if (!userDoc.exists) {
+          chatUser = ChatUser(
+            uid: user.uid,
+            batch: 2026,
+            branch: "ITBI",
+            college: "IIIT Allahabad",
+            semester: 1,
+            name: user.displayName ?? "Anonymous",
+            email: user.email ?? email,
+            imageUrl: user.photoURL ?? "",
+          );
+          await firestore.collection('user').doc(user.uid).set(chatUser.toJson());
+        } else {
+          final data = userDoc.data() as Map<String, dynamic>;
+          chatUser = ChatUser.fromJson(data);
+        }
+        // final storage = new FlutterSecureStorage();
+        // await storage.write(key: 'me' ,value: jsonEncode(chatUser.toJson()));
+      }
+      return userCredential;
+    } catch (e) {
+      return null;
     }
   }
 
@@ -119,6 +195,16 @@ class APIs {
     return false;
   }
 
+  static Future<bool> checkEmailExistsInFirestore(String email) async {
+    var querySnapshot = await FirebaseFirestore.instance
+        .collection('user')
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .get();
+
+    return querySnapshot.docs.isNotEmpty;
+  }
+
 //-----------------------------create user through google-----------------------------------//
   static Future<void> createGoogleUser() async {
     final chatUser = ChatUser(
@@ -168,8 +254,6 @@ class APIs {
           "college" : "IIIT Allahabad",
           "semester" : semester,
         });
-
-
       }catch(e){
       }
   }
@@ -180,7 +264,6 @@ class APIs {
     await storage.delete(key: "me");
     await storage.delete(key: "${APIs.me!.batch}");
     await storage.delete(key: "recents");
-
     await auth.signOut();
   }
 

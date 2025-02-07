@@ -61,6 +61,7 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   timeago: ^3.7.0
   connectivity_plus: ^6.1.2
+  quiver: ^3.2.2
 
 dev_dependencies:
   flutter_test:

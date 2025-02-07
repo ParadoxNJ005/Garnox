@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sembreaker/components/ProfilePicture.dart';
 import 'package:sembreaker/pages/EditProfile.dart';
+import 'package:sembreaker/pages/landingPage.dart';
 import 'package:share_plus/share_plus.dart';
 import '../database/Apis.dart';
 import '../pages/AuthPage.dart';
@@ -35,20 +37,21 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
                     child: Container(
                       height: 60,
                       width: 60,
-                      child: CachedNetworkImage(
-                        imageUrl: APIs.me!.imageUrl!,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.cover,
-                                colorFilter:
-                                ColorFilter.mode(Colors.white, BlendMode.colorBurn)),
-                          ),
-                        ),
-                        placeholder: (context, url) => CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
-                      ),
+                      child: ProfilePicture(radius: 60 , name: APIs.me!.name,username: APIs.me!.name,logo: (APIs.me!.imageUrl=="")?null:APIs.me!.imageUrl,),
+                      // child: CachedNetworkImage(
+                      //   imageUrl: APIs.me!.imageUrl!,
+                      //   imageBuilder: (context, imageProvider) => Container(
+                      //     decoration: BoxDecoration(
+                      //       image: DecorationImage(
+                      //           image: imageProvider,
+                      //           fit: BoxFit.cover,
+                      //           colorFilter:
+                      //           ColorFilter.mode(Colors.white, BlendMode.colorBurn)),
+                      //     ),
+                      //   ),
+                      //   placeholder: (context, url) => CircularProgressIndicator(),
+                      //   errorWidget: (context, url, error) => Icon(Icons.error),
+                      // ),
                     ),
                   ),
                   title: Text(
@@ -79,7 +82,7 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfile()));}),
             _list(Icons.local_offer_outlined, "About", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
             _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
-            _list(Icons.logout_outlined, "Sign out", ()async{ await APIs.Signout(); Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>Auth()), (route) => false,);}),
+            _list(Icons.logout_outlined, "Sign out", ()async{ await APIs.Signout(); Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const Landingpage()), (route) => false,);}),
             Spacer(),
             Text(
               'Made with ❤️ By GeekHaven',

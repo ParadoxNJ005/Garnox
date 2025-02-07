@@ -7,6 +7,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sembreaker/pages/HomePage.dart';
+import '../components/ProfilePicture.dart';
 import '../components/custom_helpr.dart';
 import '../database/Apis.dart';
 import '../utils/contstants.dart';
@@ -249,26 +250,7 @@ class _EditProfileState extends State<EditProfile> {
                         color: Constants.WHITE,
                         child: Align(
                           alignment: Alignment.center,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(80),
-                            child: Container(
-                              child: CachedNetworkImage(
-                                imageUrl: APIs.me!.imageUrl!,
-                                imageBuilder: (context, imageProvider) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                        // colorFilter:
-                                        // ColorFilter.mode(Constants.WHITE)
-                                    ),
-                                  ),
-                                ),
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                errorWidget: (context, url, error) => Icon(Icons.error),
-                              ),
-                            ),
-                          ),
+                          child: ProfilePicture(radius: 80 , name: APIs.me!.name,username: APIs.me!.name,logo: (APIs.me!.imageUrl=="")?null:APIs.me!.imageUrl,),
                         ),
                       ),
                     ),

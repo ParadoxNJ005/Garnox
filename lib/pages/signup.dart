@@ -9,24 +9,24 @@ import '../database/Apis.dart';
 import 'CollegeDetails.dart';
 import 'HomePage.dart';
 
-class Auth extends StatefulWidget {
-  const Auth({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<Auth> createState() => _AuthState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _AuthState extends State<Auth> {
+class _SignupState extends State<Signup> {
   bool _isAnimate = false;
 
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-
-    //for auto triggering animation
     Future.delayed(const Duration(milliseconds: 500), () {
       setState(() => _isAnimate = true);
     });
@@ -35,12 +35,13 @@ class _AuthState extends State<Auth> {
   @override
   void dispose() {
     super.dispose();
+    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
   }
 
   _handleGoogleBtnClick() {
-    //for showing progress bar
     Dialogs.showProgressBar(context);
 
     _signInWithGoogle().then((user) async {
@@ -70,17 +71,12 @@ class _AuthState extends State<Auth> {
   Future<UserCredential?> _signInWithGoogle() async {
     try {
       await InternetAddress.lookup('google.com');
-
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
-
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
       return await APIs.auth.signInWithCredential(credential);
     } catch (e) {
       Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
@@ -101,50 +97,70 @@ class _AuthState extends State<Auth> {
       borderSide: const BorderSide(color: Colors.blue, width: 2.0),
     );
 
-    bool validateCredentials(String email, String password) {
+    bool validateCredentials(String name, String email, String password, String confirmPassword) {
+      if (name.trim().isEmpty || name.length < 3) {
+        Dialogs.showSnackbar(context, "Name must be at least 3 characters long.");
+        return false;
+      }
+
       if (!email.endsWith('@gmail.com') && !email.endsWith('@iiita.ac.in')) {
         Dialogs.showSnackbar(context, "Email must be a valid Gmail or IIITA email.");
         return false;
       }
 
       if (password.length <= 6) {
-       Dialogs.showSnackbar(context, "Password must be more than 6 characters.");
+        Dialogs.showSnackbar(context, "Password must be more than 6 characters.");
+        return false;
+      }
+
+      if (password != confirmPassword) {
+        Dialogs.showSnackbar(context, "Passwords do not match.");
         return false;
       }
       return true;
     }
 
     void handleSubmit() async {
-      String email = emailController.text;
-      String password = passwordController.text;
+      String name = nameController.text.trim();
+      String email = emailController.text.trim();
+      String password = passwordController.text.trim();
+      String confirmPassword = confirmPasswordController.text.trim();
 
-      if (validateCredentials(email, password)) {
-        Dialogs.showProgressBar(context);
-        final userCredential = await APIs.loginWithEmailAndPassword(email, password);
-        Navigator.pop(context);
-        if (userCredential != null) {
-          Dialogs.showSnackbar(context, "Login successful");
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const HomePage()));
-        } else {
-          Dialogs.showSnackbar(context, "Login failed. Please try again.");
+      if (validateCredentials(name, email, password, confirmPassword)) {
+        if((await APIs.checkEmailExistsInFirestore(email))){
+          Dialogs.showSnackbar(context, "Email Already Exists");
+          return;
         }
-      } else {
-        Dialogs.showSnackbar(context, "Invalid Email And Password");
+
+        if (password != confirmPassword) {
+          Dialogs.showSnackbar(context, "Passwords do not match");
+          return;
+        }
+
+        Dialogs.showProgressBar(context);
+        final userCredential = await APIs.signupWithEmailAndPassword(name, email, password);
+        Navigator.pop(context);
+
+        if (userCredential != null) {
+          Dialogs.showSnackbar(context, "Signup successful");
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const CollegeDetails()));
+        } else {
+          Dialogs.showSnackbar(context, "Signup failed.");
+        }
       }
     }
-
 
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center, // Ensures spacing between elements
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 100),
             SizedBox(
               width: double.infinity,
-              height: 250,
+              height: 200,
               child: Center(
                 child: Lottie.asset('assets/animation/aa.json', fit: BoxFit.fill),
               ),
@@ -155,6 +171,20 @@ class _AuthState extends State<Auth> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  // Name TextField
+                  TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      labelText: 'Full Name',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: textFieldBorder,
+                      enabledBorder: textFieldBorder,
+                      focusedBorder: focusedBorder,
+                    ),
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 16.0),
                   // Email TextField
                   TextField(
                     controller: emailController,
@@ -166,7 +196,7 @@ class _AuthState extends State<Auth> {
                       enabledBorder: textFieldBorder,
                       focusedBorder: focusedBorder,
                     ),
-                    style: TextStyle(color: Colors.black), // Set text color
+                    style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 16.0),
                   // Password TextField
@@ -181,7 +211,22 @@ class _AuthState extends State<Auth> {
                       enabledBorder: textFieldBorder,
                       focusedBorder: focusedBorder,
                     ),
-                      style: TextStyle(color: Colors.black)
+                    style: const TextStyle(color: Colors.black),
+                  ),
+                  const SizedBox(height: 16.0),
+                  // Confirm Password TextField
+                  TextField(
+                    controller: confirmPasswordController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: 'Confirm Password',
+                      filled: true,
+                      fillColor: Colors.white,
+                      border: textFieldBorder,
+                      enabledBorder: textFieldBorder,
+                      focusedBorder: focusedBorder,
+                    ),
+                    style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 16.0),
                   SizedBox(
@@ -197,7 +242,7 @@ class _AuthState extends State<Auth> {
                       child: const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16.0),
                         child: Text(
-                          'Submit',
+                          'Sign Up',
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ),
@@ -217,8 +262,8 @@ class _AuthState extends State<Auth> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Constants.WHITE,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Border radius of 10
-                    side: const BorderSide(color: Colors.black), // Black border
+                    borderRadius: BorderRadius.circular(10),
+                    side: const BorderSide(color: Colors.black),
                   ),
                   elevation: 1,
                 ),
@@ -232,12 +277,12 @@ class _AuthState extends State<Auth> {
                       'assets/images/google_logo.png',
                       height: mq.height * .035,
                     ),
-                    const SizedBox(width: 26), // Space between icon and text
+                    const SizedBox(width: 26),
                     RichText(
                       text: const TextSpan(
                         style: TextStyle(color: Colors.black, fontSize: 16),
                         children: [
-                          TextSpan(text: 'Login with '),
+                          TextSpan(text: 'Sign Up With '),
                           TextSpan(
                             text: 'Google',
                             style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
@@ -249,7 +294,7 @@ class _AuthState extends State<Auth> {
                 ),
               ),
             ),
-            const SizedBox(height: 20), // Adds padding at the bottom
+            const SizedBox(height: 20),
           ],
         ),
       ),
