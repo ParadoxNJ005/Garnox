@@ -413,7 +413,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         child: Text(
-                          'Join \nGeek Haven Community \nnow',
+                          'Join \nGeekHaven Community \nnow',
                           style: GoogleFonts.epilogue(
                             textStyle: const TextStyle(
                               fontSize: 30,
@@ -457,7 +457,7 @@ class _DeveloperPageState extends State<DeveloperPage> with TickerProviderStateM
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: Text(
-                  'Made with ❤️ By Geek Heaven',
+                  'Made with ❤️ By GeekHeaven',
                   style: GoogleFonts.epilogue(
                     textStyle: const TextStyle(
                       fontSize: 15,

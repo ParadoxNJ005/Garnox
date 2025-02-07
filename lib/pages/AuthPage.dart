@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -89,6 +90,38 @@ class _AuthState extends State<Auth> {
     }
   }
 
+  bool validateCredentials(String email, String password) {
+    if (!email.endsWith('@gmail.com') && !email.endsWith('@iiita.ac.in')) {
+      Dialogs.showSnackbar(context, "Email must be a valid Gmail or IIITA email.");
+      return false;
+    }
+
+    if (password.length <= 6) {
+      Dialogs.showSnackbar(context, "Password must be more than 6 characters.");
+      return false;
+    }
+    return true;
+  }
+
+  void handleSubmit() async {
+    String email = emailController.text;
+    String password = passwordController.text;
+    if (validateCredentials(email, password)) {
+      Dialogs.showProgressBar(context);
+      log("-------------------hello ------------------------ ${APIs.user_uid}");
+      final userCredential = await APIs.loginWithEmailAndPassword(email, password);
+      Navigator.pop(context);
+      if (userCredential != null) {
+        Dialogs.showSnackbar(context, "Login successful");
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const HomePage()));
+      } else {
+        Dialogs.showSnackbar(context, "Login failed. Please try again.");
+      }
+    } else {
+      Dialogs.showSnackbar(context, "Invalid Email And Password");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var mq = MediaQuery.of(context).size;
@@ -101,38 +134,6 @@ class _AuthState extends State<Auth> {
       borderRadius: BorderRadius.circular(10.0),
       borderSide: const BorderSide(color: Colors.blue, width: 2.0),
     );
-
-    bool validateCredentials(String email, String password) {
-      if (!email.endsWith('@gmail.com') && !email.endsWith('@iiita.ac.in')) {
-        Dialogs.showSnackbar(context, "Email must be a valid Gmail or IIITA email.");
-        return false;
-      }
-
-      if (password.length <= 6) {
-       Dialogs.showSnackbar(context, "Password must be more than 6 characters.");
-        return false;
-      }
-      return true;
-    }
-
-    void handleSubmit() async {
-      String email = emailController.text;
-      String password = passwordController.text;
-
-      if (validateCredentials(email, password)) {
-        Dialogs.showProgressBar(context);
-        final userCredential = await APIs.loginWithEmailAndPassword(email, password);
-        Navigator.pop(context);
-        if (userCredential != null) {
-          Dialogs.showSnackbar(context, "Login successful");
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const HomePage()));
-        } else {
-          Dialogs.showSnackbar(context, "Login failed. Please try again.");
-        }
-      } else {
-        Dialogs.showSnackbar(context, "Invalid Email And Password");
-      }
-    }
 
 
     return Scaffold(

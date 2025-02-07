@@ -172,7 +172,7 @@ class LOCALs{
           }
         }
       } catch (e) {
-        throw 'me toh tut gya, barbaad ho gya';
+
       }
     }
 }

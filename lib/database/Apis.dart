@@ -17,10 +17,10 @@ class APIs {
   static SemViseSubject? semSubjectName;
   static SpecificSubject? allSubject;                              //no usage
   static final user_uid = auth.currentUser!.uid;
+  static final storage = new FlutterSecureStorage();
 
 //--------------FETCH ALL SUBJECTS DATA AND STORE IT INTO LOCAL STORAGE--------------------------------------------//
   static Future<void> fetchAllSubjects() async {
-    final storage = new FlutterSecureStorage();
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('Subjects')
@@ -51,6 +51,8 @@ class APIs {
           email: email, password: password);
       User? user = userCredential.user;
 
+      await storage.delete(key: "me");
+
       if (user != null) {
         DocumentSnapshot userDoc =
         await firestore.collection('user').doc(user.uid).get();
@@ -68,7 +70,6 @@ class APIs {
             imageUrl: "",
           );
           await firestore.collection('user').doc(user.uid).set(chatUser.toJson());
-          // const storage = FlutterSecureStorage();
           // await storage.write(key: 'me' ,value: jsonEncode(chatUser.toJson()));
         }
       }
@@ -86,6 +87,8 @@ class APIs {
         email: email,
         password: password,
       );
+
+      await storage.delete(key: "me");
 
       User? user = userCredential.user;
       if (user != null) {
@@ -109,7 +112,6 @@ class APIs {
           final data = userDoc.data() as Map<String, dynamic>;
           chatUser = ChatUser.fromJson(data);
         }
-        // final storage = new FlutterSecureStorage();
         // await storage.write(key: 'me' ,value: jsonEncode(chatUser.toJson()));
       }
       return userCredential;
@@ -126,7 +128,6 @@ class APIs {
     String branchName = me!.branch!;
     String keyName = "${yearName}";
 
-    final storage = new FlutterSecureStorage();
     await firestore.collection('Data').doc(yearName.toString()).get().then((user) async {
       if (user.exists) {
 
@@ -140,7 +141,6 @@ class APIs {
 
 //-----------------------------Fetch the user data-------------------------------------------------//
   static Future<void> myInfo() async{
-    final storage = new FlutterSecureStorage();
     await firestore.collection('user').doc(user_uid).get().then((user) async {
       if (user.exists) {
 
@@ -154,14 +154,16 @@ class APIs {
 
 //-----------------------------If User Exists Store All the Data From Local Storage to me-------------------//
   static Future<void> offlineInfo() async {
-    final storage = new FlutterSecureStorage();
 
     try {
       String? stringOfItems = await storage.read(key: "me");
       if (stringOfItems != null) {
+        log("------------------------------hello i am not null----------------------------");
         Map<String, dynamic> jsonData = jsonDecode(stringOfItems);
         me = ChatUser.fromJson(jsonData);
+        log("------------------------------hello i am not null i am ${user_uid}----------------------------");
       } else {
+        log("------------------------------hello i am null i am ${user_uid}----------------------------");
         await myInfo();
       }
 
@@ -259,18 +261,43 @@ class APIs {
   }
 
 //----------------------------Sign Out User From the Application-----------------------------------//
-  static Future<void> Signout() async{
-    final storage =  new FlutterSecureStorage();
-    await storage.delete(key: "me");
-    await storage.delete(key: "${APIs.me!.batch}");
-    await storage.delete(key: "recents");
+  static Future<void> signOut() async {
     try {
-      await GoogleSignIn().disconnect();
-    } catch (e) {
-    }
+      if (auth.currentUser != null) {
+        await storage.delete(key: "me");
 
-    await auth.signOut();
+        if (APIs.me != null) {
+          await storage.delete(key: "${APIs.me!.batch}");
+          APIs.me = null;
+        }
+
+        await storage.delete(key: "recents");
+
+        // Sign out from Firebase
+        await auth.signOut();
+
+        // Ensure Google sign-out is handled properly
+        final googleSignIn = GoogleSignIn();
+        if (await googleSignIn.isSignedIn()) {
+          await googleSignIn.signOut();
+        }
+
+        // Wait for Firebase to update auth state
+        await Future.delayed(Duration(milliseconds: 500));
+
+        // Check if user is actually signed out
+        if (auth.currentUser == null) {
+          log("User successfully signed out");
+        } else {
+          log("Sign-out failed, user is still signed in");
+        }
+      }
+    } catch (e) {
+      log("Error during sign-out: $e");
+    }
   }
+
+
 
   //----------------------------Notification Display Api--------------------------------------------//
   static Future<List<Map<String, dynamic>>> fetchNotifications() async {
