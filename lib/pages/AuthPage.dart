@@ -18,7 +18,8 @@ class Auth extends StatefulWidget {
 
 class _AuthState extends State<Auth> {
   bool _isAnimate = false;
-
+  bool _obscureText = true;
+  bool _obscureText1= true;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -172,7 +173,7 @@ class _AuthState extends State<Auth> {
                   // Password TextField
                   TextField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: _obscureText,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       filled: true,
@@ -180,8 +181,19 @@ class _AuthState extends State<Auth> {
                       border: textFieldBorder,
                       enabledBorder: textFieldBorder,
                       focusedBorder: focusedBorder,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureText ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                      ),
                     ),
-                      style: TextStyle(color: Colors.black)
+                    style: TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 16.0),
                   SizedBox(

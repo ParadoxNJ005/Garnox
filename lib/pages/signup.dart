@@ -18,6 +18,8 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   bool _isAnimate = false;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -200,9 +202,11 @@ class _SignupState extends State<Signup> {
                   ),
                   const SizedBox(height: 16.0),
                   // Password TextField
+                // For Confirm Password field
+
                   TextField(
                     controller: passwordController,
-                    obscureText: true,
+                    obscureText: _obscurePassword,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       filled: true,
@@ -210,14 +214,25 @@ class _SignupState extends State<Signup> {
                       border: textFieldBorder,
                       enabledBorder: textFieldBorder,
                       focusedBorder: focusedBorder,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscurePassword = !_obscurePassword; // Toggle password visibility
+                          });
+                        },
+                      ),
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),
                   const SizedBox(height: 16.0),
-                  // Confirm Password TextField
+      // Confirm Password TextField
                   TextField(
                     controller: confirmPasswordController,
-                    obscureText: true,
+                    obscureText: _obscureConfirmPassword,
                     decoration: InputDecoration(
                       labelText: 'Confirm Password',
                       filled: true,
@@ -225,6 +240,17 @@ class _SignupState extends State<Signup> {
                       border: textFieldBorder,
                       enabledBorder: textFieldBorder,
                       focusedBorder: focusedBorder,
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _obscureConfirmPassword ? Icons.visibility_off : Icons.visibility,
+                          color: Colors.grey,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _obscureConfirmPassword = !_obscureConfirmPassword; // Toggle confirm password visibility
+                          });
+                        },
+                      ),
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),

@@ -264,6 +264,11 @@ class APIs {
     await storage.delete(key: "me");
     await storage.delete(key: "${APIs.me!.batch}");
     await storage.delete(key: "recents");
+    try {
+      await GoogleSignIn().disconnect();
+    } catch (e) {
+    }
+
     await auth.signOut();
   }
 

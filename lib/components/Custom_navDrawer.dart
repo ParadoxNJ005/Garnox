@@ -82,7 +82,11 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfile()));}),
             _list(Icons.local_offer_outlined, "About", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
             _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
-            _list(Icons.logout_outlined, "Sign out", ()async{ await APIs.Signout(); Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const Landingpage()), (route) => false,);}),
+            _list(Icons.logout_outlined, "Sign out", ()async{
+              await APIs.Signout();
+
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>const Landingpage()), (route) => false,);
+            }),
             Spacer(),
             Text(
               'Made with ❤️ By GeekHaven',
