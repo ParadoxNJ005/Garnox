@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,54 +40,7 @@ class _AuthState extends State<Auth> {
     passwordController.dispose();
   }
 
-  _handleGoogleBtnClick() {
-    //for showing progress bar
-    Dialogs.showProgressBar(context);
 
-    _signInWithGoogle().then((user) async {
-      Navigator.pop(context);
-
-      if (user != null) {
-        final email = user.user?.email;
-        if (email != null) {
-          if ((await APIs.userExists())) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const HomePage()));
-          } else {
-            APIs.createGoogleUser().then((value) => {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const CollegeDetails()))
-            });
-          }
-        } else {
-          Dialogs.showSnackbar(context, "⚠️ Login Via Valid College Id!!");
-          await FirebaseAuth.instance.signOut();
-          await GoogleSignIn().signOut();
-        }
-      }
-    });
-  }
-
-  Future<UserCredential?> _signInWithGoogle() async {
-    try {
-      await InternetAddress.lookup('google.com');
-
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-      final GoogleSignInAuthentication? googleAuth =
-      await googleUser?.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-
-      return await APIs.auth.signInWithCredential(credential);
-    } catch (e) {
-      Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
-      return null;
-    }
-  }
 
   bool validateCredentials(String email, String password) {
     if (!email.endsWith('@gmail.com') && !email.endsWith('@iiita.ac.in')) {
@@ -108,7 +60,7 @@ class _AuthState extends State<Auth> {
     String password = passwordController.text;
     if (validateCredentials(email, password)) {
       Dialogs.showProgressBar(context);
-      log("-------------------hello ------------------------ ${APIs.user_uid}");
+      // log("-------------------hello ------------------------ ${APIs.user_uid}");
       final userCredential = await APIs.loginWithEmailAndPassword(email, password);
       Navigator.pop(context);
       if (userCredential != null) {
@@ -135,6 +87,54 @@ class _AuthState extends State<Auth> {
       borderSide: const BorderSide(color: Colors.blue, width: 2.0),
     );
 
+    Future<UserCredential?> signInWithGoogle() async {
+      try {
+        await InternetAddress.lookup('google.com');
+
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+        final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+
+        return await APIs.auth.signInWithCredential(credential);
+      } catch (e) {
+        Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
+        return null;
+      }
+    }
+
+    handleGoogleBtnClick() {
+      //for showing progress bar
+      Dialogs.showProgressBar(context);
+
+      signInWithGoogle().then((user) async {
+        Navigator.pop(context);
+
+        if (user != null) {
+          final email = user.user?.email;
+          if (email != null) {
+            if ((await APIs.userExists())) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => const HomePage()));
+            } else {
+              APIs.createGoogleUser().then((value) => {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const CollegeDetails()))
+              });
+            }
+          } else {
+            Dialogs.showSnackbar(context, "⚠️ Login Via Valid College Id!!");
+            await FirebaseAuth.instance.signOut();
+            await GoogleSignIn().signOut();
+          }
+        }
+      });
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -236,7 +236,7 @@ class _AuthState extends State<Auth> {
                   elevation: 1,
                 ),
                 onPressed: () {
-                  _handleGoogleBtnClick();
+                  handleGoogleBtnClick();
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

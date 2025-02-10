@@ -43,48 +43,6 @@ class _SignupState extends State<Signup> {
     confirmPasswordController.dispose();
   }
 
-  _handleGoogleBtnClick() {
-    Dialogs.showProgressBar(context);
-
-    _signInWithGoogle().then((user) async {
-      Navigator.pop(context);
-
-      if (user != null) {
-        final email = user.user?.email;
-        if (email != null) {
-          if ((await APIs.userExists())) {
-            Navigator.pushReplacement(
-                context, MaterialPageRoute(builder: (_) => const HomePage()));
-          } else {
-            APIs.createGoogleUser().then((value) => {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (_) => const CollegeDetails()))
-            });
-          }
-        } else {
-          Dialogs.showSnackbar(context, "⚠️ Login Via Valid College Id!!");
-          await FirebaseAuth.instance.signOut();
-          await GoogleSignIn().signOut();
-        }
-      }
-    });
-  }
-
-  Future<UserCredential?> _signInWithGoogle() async {
-    try {
-      await InternetAddress.lookup('google.com');
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      return await APIs.auth.signInWithCredential(credential);
-    } catch (e) {
-      Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
-      return null;
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,6 +51,50 @@ class _SignupState extends State<Signup> {
       borderRadius: BorderRadius.circular(10.0),
       borderSide: const BorderSide(color: Colors.black),
     );
+
+    Future<UserCredential?> signInWithGoogle() async {
+      try {
+        await InternetAddress.lookup('google.com');
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth?.accessToken,
+          idToken: googleAuth?.idToken,
+        );
+        return await APIs.auth.signInWithCredential(credential);
+      } catch (e) {
+        Dialogs.showSnackbar(context, "Something Went Wrong(Check Internet!!)");
+        return null;
+      }
+    }
+
+
+    handleGoogleBtnClick() {
+      Dialogs.showProgressBar(context);
+
+      signInWithGoogle().then((user) async {
+        Navigator.pop(context);
+
+        if (user != null) {
+          final email = user.user?.email;
+          if (email != null) {
+            if ((await APIs.userExists())) {
+              Navigator.pushReplacement(
+                  context, MaterialPageRoute(builder: (_) => const HomePage()));
+            } else {
+              APIs.createGoogleUser().then((value) => {
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (_) => const CollegeDetails()))
+              });
+            }
+          } else {
+            Dialogs.showSnackbar(context, "⚠️ Login Via Valid College Id!!");
+            await FirebaseAuth.instance.signOut();
+            await GoogleSignIn().signOut();
+          }
+        }
+      });
+    }
 
     final OutlineInputBorder focusedBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10.0),
@@ -294,7 +296,7 @@ class _SignupState extends State<Signup> {
                   elevation: 1,
                 ),
                 onPressed: () {
-                  _handleGoogleBtnClick();
+                  handleGoogleBtnClick();
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

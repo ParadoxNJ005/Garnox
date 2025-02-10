@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:math';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -50,6 +51,7 @@ class _HomePageState extends State<HomePage> {
 
 
   Future<void> _initializeData() async {
+    APIs.user_uid = FirebaseAuth.instance.currentUser!.uid;
     await APIs.offlineInfo();
     await LOCALs.MakeSearchFunctionality();
     // _handleRefresh();

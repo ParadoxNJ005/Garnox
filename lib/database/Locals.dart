@@ -64,13 +64,13 @@ class LOCALs{
      */
     static Future<void> launchURL(String url) async {
       try {
-        if (await canLaunch(url)) {
-          await launch(url, forceSafariVC: false);
+        if (await launch(url, forceSafariVC: false)) {
+          await canLaunch(url);
         } else {
-          throw 'Could not launch $url';
+          // throw 'Could not launch $url';
         }
       } catch (e) {
-        throw 'Could not launch $url';
+        // throw 'Could not launch $url';
       }
     }
 

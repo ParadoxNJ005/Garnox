@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,8 +15,45 @@ class APIs {
   static ChatUser? me;  //my info
   static SemViseSubject? semSubjectName;
   static SpecificSubject? allSubject;                              //no usage
-  static final user_uid = auth.currentUser!.uid;
+  static var user_uid = auth.currentUser!.uid;
   static final storage = new FlutterSecureStorage();
+
+  //-----------------------------If User Exists Store All the Data From Local Storage to me-------------------//
+  static Future<void> offlineInfo() async {
+
+    try {
+      String? stringOfItems = await storage.read(key: "me");
+      if (stringOfItems != null) {
+        // log("------------------------------hello i am not null----------------------------");
+        Map<String, dynamic> jsonData = jsonDecode(stringOfItems);
+        me = ChatUser.fromJson(jsonData);
+        // log("------------------------------hello i am not null i am ${user_uid}----------------------------");
+      } else {
+        // log("${auth.currentUser}");
+        // log("------------------------------hello i am null i am ${user_uid}----------------------------");
+        await myInfo();
+      }
+
+      int yearName = me!.batch!;
+
+      String? stringofsemSubjectName = await storage.read(key: "${yearName}");
+      if (stringofsemSubjectName != null) {
+        Map<String, dynamic> jsonData = jsonDecode(stringofsemSubjectName);
+        semSubjectName = SemViseSubject.fromJson(jsonData);
+      } else {
+        await fetchSemSubjectName();
+      }
+
+      String? stringofsemAllSubjects = await storage.read(key: "LAL");
+      if (stringofsemAllSubjects != null){
+      }else{
+        await fetchAllSubjects();
+      }
+
+    } catch (e) {
+    }
+  }
+
 
 //--------------FETCH ALL SUBJECTS DATA AND STORE IT INTO LOCAL STORAGE--------------------------------------------//
   static Future<void> fetchAllSubjects() async {
@@ -141,6 +177,7 @@ class APIs {
 
 //-----------------------------Fetch the user data-------------------------------------------------//
   static Future<void> myInfo() async{
+    // log("------------------hello ${user_uid}--${auth.currentUser?.uid}-------------------------");
     await firestore.collection('user').doc(user_uid).get().then((user) async {
       if (user.exists) {
 
@@ -150,41 +187,6 @@ class APIs {
       } else {
       }
     });
-  }
-
-//-----------------------------If User Exists Store All the Data From Local Storage to me-------------------//
-  static Future<void> offlineInfo() async {
-
-    try {
-      String? stringOfItems = await storage.read(key: "me");
-      if (stringOfItems != null) {
-        log("------------------------------hello i am not null----------------------------");
-        Map<String, dynamic> jsonData = jsonDecode(stringOfItems);
-        me = ChatUser.fromJson(jsonData);
-        log("------------------------------hello i am not null i am ${user_uid}----------------------------");
-      } else {
-        log("------------------------------hello i am null i am ${user_uid}----------------------------");
-        await myInfo();
-      }
-
-      int yearName = me!.batch!;
-
-      String? stringofsemSubjectName = await storage.read(key: "${yearName}");
-      if (stringofsemSubjectName != null) {
-        Map<String, dynamic> jsonData = jsonDecode(stringofsemSubjectName);
-        semSubjectName = SemViseSubject.fromJson(jsonData);
-      } else {
-        await fetchSemSubjectName();
-      }
-
-      String? stringofsemAllSubjects = await storage.read(key: "LAL");
-      if (stringofsemAllSubjects != null){
-      }else{
-        await fetchAllSubjects();
-      }
-
-    } catch (e) {
-    }
   }
 
 //-----------------------------check user exists-----------------------------------//
@@ -287,13 +289,13 @@ class APIs {
 
         // Check if user is actually signed out
         if (auth.currentUser == null) {
-          log("User successfully signed out");
+          // log("User successfully signed out");
         } else {
-          log("Sign-out failed, user is still signed in");
+          // log("Sign-out failed, user is still signed in");
         }
       }
     } catch (e) {
-      log("Error during sign-out: $e");
+      // log("Error during sign-out: $e");
     }
   }
 

@@ -24,7 +24,7 @@ Future<void> main() async {
     // Enable Firebase Crashlytics
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   } catch (e) {
-    debugPrint("Error initializing Firebase: $e");
+    // debugPrint("Error initializing Firebase: $e");
   }
 
   runApp(MyApp());
