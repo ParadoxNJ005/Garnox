@@ -79,12 +79,18 @@ class _SignupState extends State<Signup> {
           final email = user.user?.email;
           if (email != null) {
             if ((await APIs.userExists())) {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => const HomePage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const HomePage()),
+                    (Route<dynamic> route) => false,
+              );
             } else {
               APIs.createGoogleUser().then((value) => {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const CollegeDetails()))
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CollegeDetails()),
+                      (Route<dynamic> route) => false,
+                )
               });
             }
           } else {
@@ -147,7 +153,11 @@ class _SignupState extends State<Signup> {
 
         if (userCredential != null) {
           Dialogs.showSnackbar(context, "Signup successful");
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const CollegeDetails()));
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const CollegeDetails()),
+                (Route<dynamic> route) => false,
+          );
         } else {
           Dialogs.showSnackbar(context, "Signup failed.");
         }

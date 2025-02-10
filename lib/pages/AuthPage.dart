@@ -65,7 +65,11 @@ class _AuthState extends State<Auth> {
       Navigator.pop(context);
       if (userCredential != null) {
         Dialogs.showSnackbar(context, "Login successful");
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>const HomePage()));
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (_) => const HomePage()),
+              (Route<dynamic> route) => false,
+        );
       } else {
         Dialogs.showSnackbar(context, "Login failed. Please try again.");
       }
@@ -119,12 +123,18 @@ class _AuthState extends State<Auth> {
           final email = user.user?.email;
           if (email != null) {
             if ((await APIs.userExists())) {
-              Navigator.pushReplacement(
-                  context, MaterialPageRoute(builder: (_) => const HomePage()));
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const HomePage()),
+                    (Route<dynamic> route) => false,
+              );
             } else {
               APIs.createGoogleUser().then((value) => {
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (_) => const CollegeDetails()))
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => const CollegeDetails()),
+                      (Route<dynamic> route) => false,
+                )
               });
             }
           } else {
