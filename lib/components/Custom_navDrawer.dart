@@ -77,10 +77,23 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
                 ),
               )
             ),
-            _list(Icons.calendar_today_rounded, "Subjects", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>SemViseSubjects()));}),
-            _list(Icons.notifications_active, "Notifications", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));}),
-            _list(Icons.person, "Profile", (){Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfile()));}),
-            _list(Icons.local_offer_outlined, "About", (){Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
+            _list(Icons.calendar_today_rounded, "Subjects", () {
+              Navigator.pop(context); // Close the drawer
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => SemViseSubjects()),
+                    (route) => route.isFirst, // Retains only the first route (HomePage)
+              );
+            }),
+            _list(Icons.notifications_active, "Notifications", (){
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>NotificationScreen()));}),
+            _list(Icons.person, "Profile", (){
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => EditProfile()));}),
+            _list(Icons.local_offer_outlined, "About", (){
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
             _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
             _list(Icons.logout_outlined, "Sign out", ()async{
               await APIs.signOut();
