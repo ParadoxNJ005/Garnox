@@ -133,7 +133,7 @@ class _SearchPageState extends State<SearchPage> {
                           child: Center(
                             child: Column(
                                 children: [
-                                  Lottie.asset('assets/animation/nodatafound.json'),
+                                  Lottie.asset('assets/animation/pq.json'),
                                 // Container(width: double.infinity ,child: Center(child: Text("✏️ NO DATA FOUND!!" ,style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.w600),))),
                                 ],
                               ),

@@ -94,7 +94,7 @@ class _CustomNavDrawerState extends State<CustomNavDrawer> {
             _list(Icons.local_offer_outlined, "About", (){
               Navigator.pop(context);
               Navigator.push(context, MaterialPageRoute(builder: (_)=>DeveloperPage()));}),
-            _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep.");}),
+            _list(Icons.share, "Share", (){Share.share("Hurry Up ⏰!! \n Download SEMBREAKER from Playstore and Boost your College Prep. \n  Link:-> https://play.google.com/store/apps/details?id=com.garnox.geekhaven");}),
             _list(Icons.logout_outlined, "Sign out", ()async{
               await APIs.signOut();
 

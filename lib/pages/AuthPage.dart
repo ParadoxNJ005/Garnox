@@ -168,6 +168,45 @@ class _AuthState extends State<Auth> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   // Email TextField
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Constants.WHITE,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10), // Border radius of 10
+                          side: const BorderSide(color: Colors.black), // Black border
+                        ),
+                        elevation: 1,
+                      ),
+                      onPressed: () {
+                        handleGoogleBtnClick();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/images/google_logo.png',
+                            height: mq.height * .035,
+                          ),
+                          const SizedBox(width: 26), // Space between icon and text
+                          RichText(
+                            text: const TextSpan(
+                              style: TextStyle(color: Colors.black, fontSize: 16),
+                              children: [
+                                TextSpan(text: 'Sign Up With Google'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  const Text("----------------------------------OR-----------------------------------"),
+                  const SizedBox(height: 15,),
                   TextField(
                     controller: emailController,
                     decoration: InputDecoration(
@@ -226,50 +265,7 @@ class _AuthState extends State<Auth> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16.0),
-                  const Text("----------------------------------OR-----------------------------------")
                 ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 60,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Constants.WHITE,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10), // Border radius of 10
-                    side: const BorderSide(color: Colors.black), // Black border
-                  ),
-                  elevation: 1,
-                ),
-                onPressed: () {
-                  handleGoogleBtnClick();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/images/google_logo.png',
-                      height: mq.height * .035,
-                    ),
-                    const SizedBox(width: 26), // Space between icon and text
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        children: [
-                          TextSpan(text: 'Login with '),
-                          TextSpan(
-                            text: 'Google',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
             const SizedBox(height: 20), // Adds padding at the bottom

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:flutter/services.dart'; // Import for SystemChrome
 
 class OpenPdf extends StatefulWidget {
   final String title;
@@ -16,6 +17,23 @@ class _OpenPdfState extends State<OpenPdf> {
   @override
   void initState() {
     super.initState();
+    // Allow all orientations when this page is opened
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
+  }
+
+  @override
+  void dispose() {
+    // Reset to portrait-only orientation when this page is closed
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
   }
 
   @override

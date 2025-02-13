@@ -180,12 +180,50 @@ class _SignupState extends State<Signup> {
               ),
             ),
             const SizedBox(height: 20),
+
             Container(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Name TextField
+                  Container(
+                    width: double.infinity,
+                    height: 60,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Constants.WHITE,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          side: const BorderSide(color: Colors.black),
+                        ),
+                        elevation: 1,
+                      ),
+                      onPressed: () {
+                        handleGoogleBtnClick();
+                      },
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.asset(
+                            'assets/images/google_logo.png',
+                            height: mq.height * .035,
+                          ),
+                          const SizedBox(width: 26),
+                          RichText(
+                            text: const TextSpan(
+                              style: TextStyle(color: Colors.black, fontSize: 16),
+                              children: [
+                                TextSpan(text: 'Sign Up With Google'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15.0),
+                  const Text("----------------------------------OR-----------------------------------"),
+                  const SizedBox(height: 15,),
                   TextField(
                     controller: nameController,
                     decoration: InputDecoration(
@@ -212,7 +250,7 @@ class _SignupState extends State<Signup> {
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 15.0),
                   // Password TextField
                 // For Confirm Password field
 
@@ -240,7 +278,7 @@ class _SignupState extends State<Signup> {
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 15.0),
       // Confirm Password TextField
                   TextField(
                     controller: confirmPasswordController,
@@ -266,7 +304,7 @@ class _SignupState extends State<Signup> {
                     ),
                     style: const TextStyle(color: Colors.black),
                   ),
-                  const SizedBox(height: 16.0),
+                  const SizedBox(height: 15.0),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -286,50 +324,7 @@ class _SignupState extends State<Signup> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 16.0),
-                  const Text("----------------------------------OR-----------------------------------")
                 ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Container(
-              width: double.infinity,
-              height: 60,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Constants.WHITE,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: const BorderSide(color: Colors.black),
-                  ),
-                  elevation: 1,
-                ),
-                onPressed: () {
-                  handleGoogleBtnClick();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      'assets/images/google_logo.png',
-                      height: mq.height * .035,
-                    ),
-                    const SizedBox(width: 26),
-                    RichText(
-                      text: const TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        children: [
-                          TextSpan(text: 'Sign Up With '),
-                          TextSpan(
-                            text: 'Google',
-                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
             const SizedBox(height: 20),
