@@ -8,7 +8,7 @@ Hola Friends, it’s a common scene on the night before the examinations, we the
 
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+![Logo]![WhatsApp Image 2025-01-21 at 12 15 11 AM (1)](https://github.com/user-attachments/assets/4b36d934-4e3f-4f2c-bac3-88f50725eb7a)
 
 
 ## Installation
@@ -54,9 +54,6 @@ Download from playstore
 ## Feedback
 
 If you have any feedback, please reach out to us at naitikjain2005@gmail.com
-
-
-![Logo]![WhatsApp Image 2025-01-21 at 12 15 11 AM (1)](https://github.com/user-attachments/assets/4b36d934-4e3f-4f2c-bac3-88f50725eb7a)
 
 
 ## Authors
