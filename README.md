@@ -25,7 +25,12 @@ Download from playstore
 ```bash
   https://play.google.com/store/apps/details?id=com.garnox.geekhaven
 ```
+## Landing Page and Admin Web Site
 
+```
+  [@Landing Page][([https://github.com/ParadoxNJ005](https://garnox-landing.vercel.app/))]
+  [@Admin Page]([https://github.com/ParadoxNJ005](https://garnox-web.vercel.app/))
+```
 
     
 ## Current Features
