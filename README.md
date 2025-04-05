@@ -1,67 +1,83 @@
+Here’s your updated README tailored for the *Spectrum* app, with the requested details and formatting:
 
-# Sembreaker 📚
+---
 
-Hola Friends, it’s a common scene on the night before the examinations, we the students knock at each of our topper’s door to get his/her notes and waste a lot of our precious time in doing that. What if there is a central place where you would get all the magical notes and material to pass the papers, the destination is here, the SemBreaker App. Sounds fun Right ?
+# 🌈 Spectrum – Empowering the LGBTQ+ Community
 
+Welcome to *Spectrum*, an inclusive platform designed to uplift and support the LGBTQ+ community through personalized job listings, community engagement, expert-led workshops, and instant AI-powered guidance.
 
+Imagine a space where you can find tailored opportunities, connect with like-minded individuals, and access resources for personal and professional growth—*Spectrum* is that space.
 
+---
 
-## Screenshots
+## 📸 Screenshots
 
-![WhatsApp Image 2025-01-21 at 12 15 11 AM (1)](https://github.com/user-attachments/assets/4b36d934-4e3f-4f2c-bac3-88f50725eb7a)
+(Include your actual app screenshots here using Markdown image links or upload to your repo)  
+Example:  
+![Screenshot](https://link-to-your-screenshot.png)
 
+---
 
-## Installation
+## 📥 Installation
 
-To clone this repo
+To clone this repo locally:
 
-```bash
-  flutter clean
-  flutter pub get
-```
-
-Download from playstore
-
-```bash
-  https://play.google.com/store/apps/details?id=com.garnox.geekhaven
-```
-## Landing Page and Admin Web Site
-
-```
-  [@Landing Page][([https://github.com/ParadoxNJ005](https://garnox-landing.vercel.app/))]
-  [@Admin Page]([https://github.com/ParadoxNJ005](https://garnox-web.vercel.app/))
-```
-
-    
-## Current Features
-
-- Official IIITA Gmail login with OTP verification
-- Profile selection: Choose semester, branch, and batch
-- Access to semester-specific materials (Lecture Notes PDF)
-- Year-wise previous question papers (PDF)
-- View, download, and share PDFs for selected semester subjects
-- Edit profile: Update semester, branch, and batch details
-- Recent searches: Access offline (stored locally)
-- Notifications
-
-## Upcoming Features
-
-- Theme options: Switch between dark and light themes
-- Moderators and important links (Videos and Documentations)
-- Recommended books for each semester
-- TA Connect: Connect with TAs for respective subjects
-- Calendar: Manage class schedules, extra lectures, tutorials,    labs, and daily events
-- In-app quiz and practice tests
-- Recent searches: Access offline (stored locally)
-- In App ChatBot
-- For IOS
-
-## Feedback
-
-If you have any feedback, please reach out to us at naitikjain2005@gmail.com
+bash
+flutter clean
+flutter pub get
 
 
-## Authors
+Download the APK:  
+[Download Spectrum APK](https://drive.google.com/your-apk-link-here)
 
-- [@Naitik Jain](https://github.com/ParadoxNJ005)
+---
 
+## 🌐 Landing Page & Admin Panel
+
+- [🔗 Landing Page](https://your-landing-page-link.vercel.app)
+- [🔧 Admin Panel](https://your-admin-panel-link.vercel.app)
+
+---
+
+## ✅ Current Features
+
+- Sign in with Google (via Firebase)
+- Customizable user profile (skills, experiences, interests)
+- Personalized job listings and local campaign suggestions
+- Community forum for posts, likes, comments, and image uploads
+- Expert-led workshops and courses with reward-based credit system
+- Redeemable cart system using credits
+- Emergency resources and NGO locator (Google Maps integration)
+- Real-time AI chatbot “Lumi” for:
+  - Legal rights guidance
+  - Mental health support
+  - Job and career suggestions
+
+---
+
+## 🚀 Upcoming Features
+
+- Theme customization
+- AI-enhanced course recommendations
+- Chatbot improvements (language support, voice input)
+- Notification system and calendar
+- Mentor-connect for career and emotional guidance
+
+---
+
+## 🧠 Feedback
+
+We’d love to hear from you!  
+Email us at *naitikjain2005@gmail.com*
+
+---
+
+## 👥 Authors
+
+Team *Butter Chicken* 🧈🐔  
+- [@Naitik Jain](https://github.com/ParadoxNJ005)  
+- [@Yojit Kapoor](https://github.com/your-profile)  
+- [@Aayush Kanjani](https://github.com/your-profile)  
+- [@Dev Ruhela](https://github.com/your-profile)
+
+---
