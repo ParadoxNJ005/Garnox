@@ -8,6 +8,7 @@ Hola Friends, it’s a common scene on the night before the examinations, we the
 ## Screenshots
 
 ![WhatsApp Image 2025-01-21 at 12 15 11 AM (1)](https://github.com/user-attachments/assets/4b36d934-4e3f-4f2c-bac3-88f50725eb7a)
+https://www.canva.com/design/DAGoEaZE5G8/Svbapui_Ss8KArjGYC27yQ/edit?utm_content=DAGoEaZE5G8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 
 ## Installation
