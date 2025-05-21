@@ -22,7 +22,6 @@ bash
 
 Download from playstore
 
-bash
   https://play.google.com/store/apps/details?id=com.garnox.geekhaven
 
 ## Landing Page and Admin Web Site
